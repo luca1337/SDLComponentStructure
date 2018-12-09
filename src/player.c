@@ -14,8 +14,8 @@ extern engine_t* engine;
 
 static void move_player(player_t* p, const vec2_t dir)
 {
-    p->pos.x += dir.x;
-    p->pos.y += dir.y;
+    p->pos.x += dir.x * ctx->delta_seconds;
+    p->pos.y += dir.y * ctx->delta_seconds;
 }
 
 static void get_player_pos(player_t* p, vec2_t* v_out)

@@ -25,14 +25,12 @@ int add_component(actor_t* actor, component_t* comp)
     {
         actor->c_head = comp;
         actor->c_tail = comp;
-        printf("first add actor: %p\n", comp);
         return 0;
     }
 
     actor->c_tail->next = comp;
     comp->prev = actor->c_tail;
     actor->c_tail = comp;
-    printf("second add actor: %p\n", comp);
 
     return 0;
 }

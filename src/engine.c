@@ -17,14 +17,12 @@ int spawn_actor(engine_t* e, actor_t* actor)
     {
         e->head = actor;
         e->tail = actor;
-        printf("first add!\n");
     }
     else
     {
         e->tail->next = actor;
         actor->prev = e->tail;
         e->tail = actor;
-        printf("second add!\n");
     }
     return 0;
 }

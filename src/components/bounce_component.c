@@ -41,8 +41,6 @@ static void _tick(bounce_component_t* comp)
 
 static void _begin(bounce_component_t* comp)
 {
-    printf("begin play bounce ball\n");
-
     // get the actor only once
     comp->player = (player_t*)comp->actor;
     if(!comp->player){
@@ -68,16 +66,7 @@ void bounce_component_init(bounce_component_t* comp, actor_t* actor)
 
 bounce_component_t* bounce_component_new(const char* name)
 {
-    bounce_component_t* comp = malloc(sizeof(bounce_component_t));
-    if(!comp) return NULL;
-
-    memset(comp, 0, sizeof(bounce_component_t));
-    int len = strlen(name);
-    char* buffer = malloc(len + 1);
-    strcpy_s(buffer, len + 1, name);
-
-    comp->component.name = buffer;
-    comp->component.active = 1;
+    bounce_component_t* comp = (bounce_component_t*)component_new(name, GET_SIZE(bounce_component_t));
     
     return comp;
 }

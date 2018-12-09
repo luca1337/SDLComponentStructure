@@ -30,7 +30,7 @@ static void update_input(moveup_component_t* c)
     p->renderer->texture->pos.x = p->pos.x;
     p->renderer->texture->pos.y = p->pos.y;
 
-    printf("pos_x: [%.2f], pos_y: [%.2f]\n", p->pos.x, p->pos.y);
+    // printf("pos_x: [%.2f], pos_y: [%.2f]\n", p->pos.x, p->pos.y);
 
     if(get_key(ctx, SDL_SCANCODE_D) && p->pos.x + p->width < ctx->width)
         p->move_player(p, right);
@@ -58,16 +58,7 @@ void moveup_component_init(moveup_component_t* c, actor_t* actor)
 
 moveup_component_t* moveup_component_new(const char* name)
 {
-    moveup_component_t* comp = malloc(sizeof(moveup_component_t));
-    if(!comp) return NULL;
-
-    memset(comp, 0, sizeof(moveup_component_t));
-    int len = strlen(name);
-    char* buffer = malloc(len + 1);
-    strcpy_s(buffer, len + 1, name);
-    
-    comp->component.name = buffer;
-    comp->component.active = 1;
+    moveup_component_t* comp = (moveup_component_t*)component_new(name, GET_SIZE(moveup_component_t));
 
     return comp;
 }

@@ -6,6 +6,8 @@
 
 extern ctx_t* ctx;
 
+#define SPEED 500
+
 #define CLAMP(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
 static void _tick(move_component_t* comp)
@@ -40,8 +42,6 @@ static void _tick(move_component_t* comp)
         }
     }
 
-    float old_y = paddle->pos.y;
-
     if(comp->auto_move)
     {
         float max = (ctx->height - paddle->height);
@@ -51,12 +51,12 @@ static void _tick(move_component_t* comp)
     {
         if(get_key(ctx, SDL_SCANCODE_W) && paddle->pos.y > 0 )
         {
-            paddle->pos.y += -0.1f;
+            paddle->pos.y += -SPEED * ctx->delta_seconds;
         }
 
         if(get_key(ctx, SDL_SCANCODE_S) && paddle->pos.y + paddle->height < ctx->height)
         {
-            paddle->pos.y += 0.1f;
+            paddle->pos.y += SPEED * ctx->delta_seconds;
         }
     }
 }
@@ -79,16 +79,7 @@ static void _begin(move_component_t* comp)
 
 move_component_t* move_component_new(const char* name)
 {
-    move_component_t* comp = malloc(sizeof(move_component_t));
-    if(!comp) return NULL;
-
-    memset(comp, 0, sizeof(move_component_t));
-    int len = strlen(name);
-    char* buffer = malloc(len + 1);
-    strcpy_s(buffer, len + 1, name);
-    
-    comp->component.name = buffer;
-    comp->component.active = 1;
+    move_component_t* comp = (move_component_t*)component_new(name, GET_SIZE(move_component_t));
 
     return comp;
 }

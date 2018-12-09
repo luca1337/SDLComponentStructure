@@ -19,6 +19,9 @@ texture_mgr_t*         mgr         = NULL;
 static palette_t*      paddles[2];
 static player_t*       ball      = NULL;
 
+float timer = 0.0;
+int cnt = 0;
+
 static void draw(ctx_t* ctx)
 {
     tick_actors(engine);
@@ -61,6 +64,8 @@ static void _init(game_manager_t* gm)
 
 static void _tick(game_manager_t* gm)
 {
+    timer = 0.0f;
+
     while(ctx->is_running)
     {
         ctx_update(ctx);

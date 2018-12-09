@@ -4,19 +4,19 @@
 #include <player.h>
 #include <stdio.h>
 
-#define SPEED   0.04
 #define OFFSET  0.1
 
 #define ARR_LEN(x)  (sizeof(x) / sizeof((x)[0]))
 
 extern ctx_t* ctx;
+#define SPEED 500
 
 static vec2_t directions[4] =
 {
-    .1f, -.1f, // upright
-    -.1f, -.1f, // upleft
-    .1f, .1f, // downright
-    -.1f, .1f // downleft
+    SPEED, -SPEED, // upright
+    -SPEED, -SPEED, // upleft
+    SPEED, SPEED, // downright
+    -SPEED, SPEED // downleft
 };
 
 static vec2_t pick_random_dir()
@@ -53,8 +53,6 @@ static void _tick(moveball_component_t* comp)
 
 static void _begin(moveball_component_t* comp)
 {
-    printf("begin play moveball!\n");
-
     // get the actor once
     comp->player = comp->actor;
     if(!comp->player){
@@ -63,7 +61,6 @@ static void _begin(moveball_component_t* comp)
     }
 
     comp->current_direction = pick_random_dir();
-    // printf("dir: %d\n", comp->current_direction);
 
     //always disable is started in order to update it only once
     comp->component.started = 1;
@@ -78,16 +75,7 @@ void moveball_component_init(moveball_component_t* comp, actor_t* actor)
 
 moveball_component_t* moveball_component_new(const char* name)
 {
-    moveball_component_t* comp = malloc(sizeof(moveball_component_t));
-    if(!comp) return NULL;
-
-    memset(comp, 0, sizeof(moveball_component_t));
-    int len = strlen(name);
-    char* buffer = malloc(len + 1);
-    strcpy_s(buffer, len + 1, name);
-    
-    comp->component.name = buffer;
-    comp->component.active = 1;
+    moveball_component_t* comp = (moveball_component_t*)component_new(name, GET_SIZE(moveball_component_t));
 
     return comp;
 }

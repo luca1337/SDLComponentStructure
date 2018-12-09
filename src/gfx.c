@@ -15,7 +15,7 @@ ctx_t* ctx_new(const char* title, int width, int height, unsigned flags, void(*_
 
     SDL_Init(SDL_INIT_AUDIO|SDL_INIT_VIDEO);
 
-    ctx->window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
+    ctx->window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
     if(!ctx->window)
     {
         fprintf(stderr, "Could not create SDL window, error: %s\n", SDL_GetError());
@@ -32,13 +32,13 @@ ctx_t* ctx_new(const char* title, int width, int height, unsigned flags, void(*_
     ctx->width = width;
     ctx->height = height;
 
-    ctx->now = SDL_GetPerformanceFrequency();
+    // ctx->end = SDL_GetPerformanceCounter();
+    ctx->start = SDL_GetPerformanceCounter();
     ctx->key_state = SDL_GetKeyboardState(NULL);
     ctx->h_width = ctx->width / 2;
     ctx->h_height = ctx->height / 2;
     ctx->screen_ratio = (float)ctx->width / (float)ctx->height;
     ctx->delta_seconds = 0;
-    ctx->last = 0;
     ctx->is_running = 1;
     ctx->post_hook_draw = _post_hook_draw;
 
@@ -67,11 +67,10 @@ void ctx_update(ctx_t* ctx)
     // draw logic here
     ctx->post_hook_draw(ctx);
 
-    ctx->last = ctx->now;
-    ctx->now = SDL_GetPerformanceCounter();
-
-    ctx->delta_seconds = (double)((ctx->now - ctx->last)*1000 / (double)SDL_GetPerformanceFrequency());
-    ctx->delta_seconds *= 0.001f;
+    ctx->end = SDL_GetPerformanceCounter();
+    ctx->delta_seconds = (ctx->end - ctx->start) / (double)SDL_GetPerformanceFrequency();
+    ctx->start = ctx->end;
+    // printf("%f\n", ctx->delta_seconds);
 
     // render present scene in the back buffer
     SDL_RenderPresent(ctx->renderer);

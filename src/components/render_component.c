@@ -21,16 +21,8 @@ static void tick(render_component_t* c)
 
 render_component_t* render_component_new(const char* name)
 {
-    render_component_t* comp = malloc(sizeof(render_component_t));
-    if(!comp){
-        return NULL;
-    }
-    memset(comp, 0, sizeof(render_component_t));
-    int len = strlen(name);
-    char* buffer = malloc(len + 1);
-    strcpy_s(buffer, len + 1, name);
-    comp->component.name = buffer;
-    comp->component.active = 1;
+    render_component_t* comp = (render_component_t*)component_new(name, GET_SIZE(render_component_t));
+
     return comp;
 }
 
@@ -39,15 +31,12 @@ void render_component_init(render_component_t* c, const char* name, int sprite_m
     // i don't like this shit
     if(sprite_mode == 0)
     {
-        printf("texture mode\n");
         c->texture = get_texture(mgr, name);
     }
     else if(sprite_mode == 1)
     {
-        printf("sprite mode\n");
         c->sprite = sprite_new(width, height, pivot);
     }
 
-    printf("gonna tick\n");
     c->component.tick = (void(*)(component_t*))tick;
 }
