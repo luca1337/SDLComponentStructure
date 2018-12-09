@@ -29,7 +29,7 @@ static void _init(game_manager_t* gm)
     srand(time(NULL));
 
     //create the context
-    ctx = ctx_new("Test", 1280, 1024, SDL_RENDERER_ACCELERATED, draw);
+    ctx = ctx_new("Test", 1280, 1024, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC, draw);
 
     //create the engine instance to manage all actors
     engine = engine_new();

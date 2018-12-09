@@ -29,17 +29,16 @@ ctx_t* ctx_new(const char* title, int width, int height, unsigned flags, void(*_
         return NULL;
     }
 
-    SDL_SetWindowTitle(ctx->window, title);
-
     ctx->width = width;
     ctx->height = height;
 
-    ctx->last = SDL_GetPerformanceCounter();
+    ctx->now = SDL_GetPerformanceFrequency();
     ctx->key_state = SDL_GetKeyboardState(NULL);
     ctx->h_width = ctx->width / 2;
     ctx->h_height = ctx->height / 2;
     ctx->screen_ratio = (float)ctx->width / (float)ctx->height;
     ctx->delta_seconds = 0;
+    ctx->last = 0;
     ctx->is_running = 1;
     ctx->post_hook_draw = _post_hook_draw;
 
@@ -59,7 +58,6 @@ void ctx_update(ctx_t* ctx)
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
-
         if (event.type == SDL_QUIT)
         {
             ctx->is_running = 0;
@@ -69,12 +67,14 @@ void ctx_update(ctx_t* ctx)
     // draw logic here
     ctx->post_hook_draw(ctx);
 
+    ctx->last = ctx->now;
+    ctx->now = SDL_GetPerformanceCounter();
+
+    ctx->delta_seconds = (double)((ctx->now - ctx->last)*1000 / (double)SDL_GetPerformanceFrequency());
+    ctx->delta_seconds *= 0.001f;
+
     // render present scene in the back buffer
     SDL_RenderPresent(ctx->renderer);
-
-    uint32_t tick_time = SDL_GetTicks();
-    ctx->delta_seconds = tick_time - ctx->last;
-    ctx->last = tick_time;
 }
 
 uint8_t get_key(ctx_t* ctx, SDL_Scancode key)

@@ -14,8 +14,9 @@ typedef struct ctx{
     int is_running;
     float screen_ratio;
     float h_width,h_height;
-    float delta_seconds;
-    unsigned last;
+    double delta_seconds;
+    uint64_t now;
+    uint64_t last;
     const uint8_t* key_state;
     void(*post_hook_draw)(struct ctx*);
 }ctx_t;
