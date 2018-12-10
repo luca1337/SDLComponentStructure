@@ -5,6 +5,7 @@
 #include <moveup_component.h>
 #include <moveball_component.h>
 #include <bounce_component.h>
+#include <animation_component.h>
 #include <actor.h>
 
 #include <vec.h>
@@ -15,6 +16,7 @@ typedef struct player{
     moveup_component_t* moveup;
     moveball_component_t* moveball;
     bounce_component_t* bounce;
+    animation_component_t* animation;
     vec2_t pos;
     int width, height;
     void(*move_player)(struct player*, const vec2_t);

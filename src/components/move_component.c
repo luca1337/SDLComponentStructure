@@ -69,19 +69,12 @@ static void _begin(move_component_t* comp)
         exit(-1);
     }
 
-    get_component(CastToActor(comp->ball), "ballmover", (component_t**)&comp->moveball_ref);
+    get_component(CastToActor(comp->ball), "moveball_component", (component_t**)&comp->moveball_ref);
     if(!comp->moveball_ref){
         fprintf(stderr, "could not retrieve the component 'bounce'\n");
     }
 
     comp->component.started = 1;
-}
-
-move_component_t* move_component_new(const char* name)
-{
-    move_component_t* comp = (move_component_t*)component_new(name, GET_SIZE(move_component_t));
-
-    return comp;
 }
 
 void move_component_init(move_component_t* comp, actor_t* owner, player_t* ball, char side_paddle, char auto_move)

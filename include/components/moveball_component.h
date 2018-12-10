@@ -21,7 +21,6 @@ typedef struct moveball_component{
     void* player;
 }moveball_component_t;
 
-moveball_component_t* moveball_component_new(const char*);
 void moveball_component_init(moveball_component_t*, actor_t*);
 
 #endif

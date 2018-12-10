@@ -32,7 +32,6 @@ ctx_t* ctx_new(const char* title, int width, int height, unsigned flags, void(*_
     ctx->width = width;
     ctx->height = height;
 
-    // ctx->end = SDL_GetPerformanceCounter();
     ctx->start = SDL_GetPerformanceCounter();
     ctx->key_state = SDL_GetKeyboardState(NULL);
     ctx->h_width = ctx->width / 2;
@@ -70,7 +69,6 @@ void ctx_update(ctx_t* ctx)
     ctx->end = SDL_GetPerformanceCounter();
     ctx->delta_seconds = (ctx->end - ctx->start) / (double)SDL_GetPerformanceFrequency();
     ctx->start = ctx->end;
-    // printf("%f\n", ctx->delta_seconds);
 
     // render present scene in the back buffer
     SDL_RenderPresent(ctx->renderer);

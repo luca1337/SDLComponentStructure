@@ -6,5 +6,7 @@
 
 #define CastToComponent(this) (component_t*)this
 #define CastToActor(this) (actor_t*)this
+#define CastToFuncPtr(this, ptr) (void(*)(ptr*))this
+#define CastTo(type, this) (type*)this
 
 #endif

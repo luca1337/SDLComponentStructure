@@ -41,17 +41,20 @@ static void _tick(bounce_component_t* comp)
 
 static void _begin(bounce_component_t* comp)
 {
-    // get the actor only once
+    // get the actor only once not each frame
     comp->player = (player_t*)comp->actor;
-    if(!comp->player){
+    if(!comp->player)
+    {
         fprintf(stderr, "could not get actor reference.\n");
-        // return;
+        return;
     }
 
     // get it's component
-    get_component(comp->actor, "ballmover", (component_t**)&comp->moveball_ref);
-    if(!comp->moveball_ref){
+    get_component(comp->actor, "moveball_component", (component_t**)&comp->moveball_ref);
+    if(!comp->moveball_ref)
+    {
         fprintf(stderr, "could not get_component\n");
+        return;
     }
 
     comp->component.started = 1;
@@ -62,11 +65,4 @@ void bounce_component_init(bounce_component_t* comp, actor_t* actor)
     comp->actor = actor;
     comp->component.tick = (void(*)(component_t*))_tick;
     comp->component.begin = (void(*)(component_t*))_begin;
-}
-
-bounce_component_t* bounce_component_new(const char* name)
-{
-    bounce_component_t* comp = (bounce_component_t*)component_new(name, GET_SIZE(bounce_component_t));
-    
-    return comp;
 }

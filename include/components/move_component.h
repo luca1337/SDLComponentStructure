@@ -16,7 +16,6 @@ typedef struct move_component{
     char auto_move;
 }move_component_t;
 
-move_component_t* move_component_new(const char*);
 void move_component_init(move_component_t*, actor_t*, player_t*, char, char);
 
 #endif

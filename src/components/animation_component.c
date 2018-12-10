@@ -1,26 +1,49 @@
 #include <animation_component.h>
 #include <stdlib.h>
 #include <string.h>
+#include <engine_utils.h>
+#include <texture_mgr.h>
 
-animation_component_t* animation_component_new(const char* component_name, int tiles_per_row, int* key_frames, float frame_length)
+extern ctx_t* ctx;
+extern texture_mgr_t* mgr;
+
+static void _tick(animation_component_t* comp)
 {
-    animation_component_t* animation_component = malloc(sizeof(animation_component_t));
-    if(!animation_component){
-        fprintf(stderr, "could not allocate space for animation component\n");
-        return NULL;
+    comp->time += ctx->delta_seconds;
+    if(comp->time > comp->frame_length)
+    {
+        if(comp->index > 2)
+        {
+            comp->current_index = comp->key_frames[0];
+            comp->index = 0;
+            SDL_Log("Reset!");
+        }
+
+        comp->current_index = comp->key_frames[comp->index++];
+        SDL_Log("Current X [%d] | Current Y [%d]", (comp->current_index  % comp->tiles_per_row) * 64, (comp->current_index  / comp->tiles_per_row) * 64);
+        comp->time = 0.0f;
     }
-    memset(animation_component, 0, sizeof(animation_component_t));
 
-    animation_component->width = animation_component->sheet.width;
-    animation_component->height = animation_component->sheet.height;
-    animation_component->tiles_per_row = tiles_per_row;
-    animation_component->key_frames = key_frames;
-    animation_component->frame_length = frame_length;
+    int x_index = (comp->current_index  % comp->tiles_per_row) * 64;
+    int y_index = (comp->current_index  / comp->tiles_per_row) * 64;
 
-    return animation_component;
+    comp->sheet->draw_tex_tiled(comp->sheet, x_index, y_index, 64, 64);
 }
 
-void animation_component_init(animation_component_t* comp)
+static void _begin(animation_component_t* comp)
 {
+    comp->component.started = 1;
+}
 
+void animation_component_init(animation_component_t* comp, const char* texture_name, int tiles_per_row, int* key_frames, float frame_length)
+{
+    comp->sheet = get_texture(mgr, texture_name);
+    comp->width = comp->sheet->width;
+    comp->height = comp->sheet->height;
+    comp->tiles_per_row = tiles_per_row;
+    comp->key_frames = key_frames;
+    comp->frame_length = frame_length;
+
+    comp->component.tick = CastToFuncPtr(_tick, component_t);
+    comp->component.begin = CastToFuncPtr(_begin, component_t);
 }

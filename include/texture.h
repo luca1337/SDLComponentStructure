@@ -13,6 +13,7 @@
 typedef struct texture{
     SDL_Texture* texture;
     SDL_Rect rect;
+    SDL_Rect src;
     SDL_Point pivot;
     SDL_RendererFlip flip_flag;
     char* name;
@@ -20,9 +21,10 @@ typedef struct texture{
     int width, height;
     double degrees;
     vec2_t pos;
-    void(*draw_tex)(struct texture*);
+    void(*draw_tex)(struct texture* texture);
+    void(*draw_tex_tiled)(struct texture* texture, int x_index, int y_index, int width, int height);
 }texture_t;
 
-texture_t* texture_new(const char*);
+texture_t* texture_new(const char* name);
 
 #endif

@@ -38,19 +38,28 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     memset(player, 0, sizeof(player_t));
 
     //setup renderer component
-    player->renderer = render_component_new("visualizer");
+    player->renderer = COMPONENT_NEW(render_component, render_component_t);
     render_component_init(player->renderer, actor_name, 0, 0, 0, 0);
     add_component(&player->actor, CastToComponent(player->renderer));
 
     //setup move component
-    player->moveball = moveball_component_new("ballmover");
+    player->moveball = COMPONENT_NEW(moveball_component, moveball_component_t);
     moveball_component_init(player->moveball, CastToActor(player));
     add_component(&player->actor, CastToComponent(player->moveball));
 
-    // //setup bounce component
-    player->bounce = bounce_component_new("bounce");
+    //setup bounce component
+    player->bounce = COMPONENT_NEW(bounce_component, bounce_component_t);
     bounce_component_init(player->bounce, CastToActor(player));
     add_component(&player->actor, CastToComponent(player->bounce));
+
+    //animation component
+    int* keys = malloc(sizeof(int) * 3);
+    keys[0] = 0;
+    keys[1] = 1;
+    keys[2] = 8;
+    player->animation = COMPONENT_NEW(animation_component, animation_component_t);
+    animation_component_init(player->animation, "tile_sheet", 9, keys, 1.0f);
+    add_component(&player->actor, CastToComponent(player->animation));
 
     player->renderer->texture->pos.x = spawn_pos.x;
     player->renderer->texture->pos.y = spawn_pos.y;

@@ -19,13 +19,6 @@ static void tick(render_component_t* c)
     }
 }
 
-render_component_t* render_component_new(const char* name)
-{
-    render_component_t* comp = (render_component_t*)component_new(name, GET_SIZE(render_component_t));
-
-    return comp;
-}
-
 void render_component_init(render_component_t* c, const char* name, int sprite_mode, int width, int height, int pivot)
 {
     // i don't like this shit

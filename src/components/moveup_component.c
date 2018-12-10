@@ -13,6 +13,8 @@ extern ctx_t* ctx;
 #define SPEED   0.4
 #define OFFSET  0.1
 
+
+
 static float    accumulator     = 0.0f;
 
 static vec2_t   right           = { SPEED, 0 };
@@ -29,8 +31,6 @@ static void update_input(moveup_component_t* c)
     // write variables to update x and y
     p->renderer->texture->pos.x = p->pos.x;
     p->renderer->texture->pos.y = p->pos.y;
-
-    // printf("pos_x: [%.2f], pos_y: [%.2f]\n", p->pos.x, p->pos.y);
 
     if(get_key(ctx, SDL_SCANCODE_D) && p->pos.x + p->width < ctx->width)
         p->move_player(p, right);
@@ -54,11 +54,4 @@ void moveup_component_init(moveup_component_t* c, actor_t* actor)
 {
     c->actor = actor;
     c->component.tick = (void(*)(component_t*))tick;
-}
-
-moveup_component_t* moveup_component_new(const char* name)
-{
-    moveup_component_t* comp = (moveup_component_t*)component_new(name, GET_SIZE(moveup_component_t));
-
-    return comp;
 }

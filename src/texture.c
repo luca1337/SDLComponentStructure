@@ -15,6 +15,21 @@ static void _draw_tex(texture_t* self)
     SDL_RenderCopyEx(ctx->renderer, self->texture, NULL, &self->rect, self->degrees, &self->pivot, self->flip_flag);
 }
 
+static void _draw_tex_tiled(texture_t* self, int x_index, int y_index, int width, int height)
+{
+    self->rect.x = 10;
+    self->rect.y = 10;
+    self->rect.w = width;
+    self->rect.h = height;
+
+    self->src.x = x_index;
+    self->src.y = y_index;
+    self->src.w = width;
+    self->src.h = height;
+
+    SDL_RenderCopyEx(ctx->renderer, self->texture, &self->src, &self->rect, self->degrees, &self->pivot, self->flip_flag);
+}
+
 texture_t* texture_new(const char* path)
 {
     texture_t* texture = malloc(sizeof(texture_t));
@@ -27,6 +42,7 @@ texture_t* texture_new(const char* path)
     texture->flip_flag = SDL_FLIP_NONE;
     texture->name = buffer;
     texture->draw_tex = _draw_tex;
+    texture->draw_tex_tiled = _draw_tex_tiled;
 
     return texture;
 }

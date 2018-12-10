@@ -11,7 +11,6 @@ typedef struct bounce_component{
     moveball_component_t* moveball_ref;
 }bounce_component_t;
 
-bounce_component_t* bounce_component_new(const char*);
 void bounce_component_init(bounce_component_t*, actor_t*);
 
 #endif

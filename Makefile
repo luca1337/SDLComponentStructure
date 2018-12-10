@@ -2,9 +2,9 @@ CC=clang
 CFLAGS= -O3 -Wno-pragma-pack -I SDL/include -I include -I include/components
 LDFLAGS= -lSDL2 -L SDL/lib/x64
 
-all: tetris
+all: tetris.exe
 
-tetris: main.o logic.o music.o gfx.o texture.o tex_list.o texture_mgr.o player.o component.o actor.o render_component.o moveup_component.o engine.o sprite.o vec.o palette.o moveball_component.o bounce_component.o move_component.o animation_component.o
+tetris.exe: main.o logic.o music.o gfx.o texture.o tex_list.o texture_mgr.o player.o actor.o render_component.o moveup_component.o engine.o sprite.o vec.o palette.o moveball_component.o bounce_component.o move_component.o animation_component.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 main.o: src/main.c
@@ -29,9 +29,6 @@ texture_mgr.o: src/texture_mgr.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 player.o: src/player.c
-	$(CC) $(CFLAGS) -c -o $@ $^
-
-component.o: src/components/component.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 actor.o: src/actor.c

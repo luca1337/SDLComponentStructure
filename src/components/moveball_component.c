@@ -72,10 +72,3 @@ void moveball_component_init(moveball_component_t* comp, actor_t* actor)
     comp->component.tick = (void(*)(component_t*))_tick;
     comp->component.begin = (void(*)(component_t*))_begin;
 }
-
-moveball_component_t* moveball_component_new(const char* name)
-{
-    moveball_component_t* comp = (moveball_component_t*)component_new(name, GET_SIZE(moveball_component_t));
-
-    return comp;
-}
