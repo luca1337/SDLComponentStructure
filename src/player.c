@@ -52,13 +52,15 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     bounce_component_init(player->bounce, CastToActor(player));
     add_component(&player->actor, CastToComponent(player->bounce));
 
-    //animation component
-    int* keys = malloc(sizeof(int) * 3);
+    //animation component test
+    int number_of_keys = 4;
+    int* keys = (int*)malloc(sizeof(int) * number_of_keys);
     keys[0] = 0;
     keys[1] = 1;
-    keys[2] = 8;
+    keys[2] = 2;
+    keys[3] = 3;
     player->animation = COMPONENT_NEW(animation_component, animation_component_t);
-    animation_component_init(player->animation, "tile_sheet", 9, keys, 1.0f);
+    animation_component_init(player->animation, "runner", 7, 4, keys, number_of_keys, 1.0f);
     add_component(&player->actor, CastToComponent(player->animation));
 
     player->renderer->texture->pos.x = spawn_pos.x;

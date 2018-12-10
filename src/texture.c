@@ -17,8 +17,8 @@ static void _draw_tex(texture_t* self)
 
 static void _draw_tex_tiled(texture_t* self, int x_index, int y_index, int width, int height)
 {
-    self->rect.x = 10;
-    self->rect.y = 10;
+    self->rect.x = self->pos.x;
+    self->rect.y = self->pos.y;
     self->rect.w = width;
     self->rect.h = height;
 

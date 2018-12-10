@@ -11,11 +11,13 @@ typedef struct animation_component{
     int* key_frames;
     float frame_length;
     int tiles_per_row;
-    float time;
+    int tiles_per_column;
+    float timer;
     int current_index;
+    int num_of_key_frames;
     int index;
 }animation_component_t;
 
-void animation_component_init(animation_component_t* comp, const char* texture_name, int tiles_per_row, int* key_frames, float frame_length);
+void animation_component_init(animation_component_t* comp, const char* texture_name, int tiles_per_row, int tiles_per_column, int* key_frames, int number_of_keys, float frame_length);
 
 #endif

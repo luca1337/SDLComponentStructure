@@ -43,6 +43,7 @@ static void _init(game_manager_t* gm)
     // create entities below and add textures in memory
     add_texture(ctx, mgr, "player", "mario2.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
     add_texture(ctx, mgr, "tile_sheet", "sheet.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
+    add_texture(ctx, mgr, "runner", "runner.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
     // add_texture(ctx, mgr, "player2", "mario2.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
 
     // create and spawn the player
