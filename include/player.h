@@ -13,6 +13,7 @@
 typedef struct player{
     actor_t actor;
     render_component_t* renderer;
+    animation_component_t* animation;
     moveball_component_t* moveball;
     bounce_component_t* bounce;
     void(*move_player)(struct player*, const vec2_t);

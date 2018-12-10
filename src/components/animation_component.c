@@ -34,7 +34,7 @@ static void _tick(animation_component_t* comp)
     int x_index = (comp->current_index  % comp->tiles_per_row) * comp->width;
     int y_index = (comp->current_index  / comp->tiles_per_row) * comp->height;
 
-    comp->sheet->draw_tex_tiled(comp->sheet, x_index, y_index, comp->width, comp->height);
+    comp->sheet->draw_texture_tiled(comp->sheet, x_index, y_index, comp->width, comp->height);
 }
 
 static void _begin(animation_component_t* comp)
@@ -47,7 +47,9 @@ static void _begin(animation_component_t* comp)
 void animation_component_init(animation_component_t* comp, actor_t* owner, const char* texture_name, int tiles_per_row, int tiles_per_column, int* key_frames, int number_of_keys, float frame_length)
 {
     comp->owner = owner;
-    comp->sheet = get_texture(mgr, texture_name);
+    texture_t* texture = get_texture(mgr, texture_name);
+    comp->sheet = sprite_new(texture->width, texture->height);
+    comp->sheet->texture = texture->texture;
     comp->tiles_per_row = tiles_per_row;
     comp->tiles_per_column = tiles_per_column;
     comp->key_frames = key_frames;

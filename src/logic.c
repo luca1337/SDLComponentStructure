@@ -2,6 +2,7 @@
 #include <engine_utils.h>
 #include <texture_mgr.h>
 #include <player.h>
+#include <enemy.h>
 #include <engine.h>
 #include <logic.h>
 #include <stdlib.h>
@@ -18,6 +19,7 @@ texture_mgr_t*         mgr         = NULL;
 
 static palette_t*      paddles[2];
 static player_t*       ball      = NULL;
+static enemy_t*         enemy      = NULL;
 
 float timer = 0.0;
 int cnt = 0;
@@ -41,18 +43,18 @@ static void _init(game_manager_t* gm)
     mgr = texture_mrg_new();
 
     // create entities below and add textures in memory
-    add_texture(ctx, mgr, "player", "mario2.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
-    add_texture(ctx, mgr, "tile_sheet", "sheet.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
-    add_texture(ctx, mgr, "runner", "runner.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
+    add_texture(mgr, "player", "mario2.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
+    add_texture(mgr, "tile_sheet", "sheet.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
+    add_texture(mgr, "runner", "runner.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
     // add_texture(ctx, mgr, "player2", "mario2.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
 
     // create and spawn the player
     vec2_t spawn_pos = vec2_init(ctx->width / 2 - 64, ctx->height / 2 - 64);
-    ball = player_new(spawn_pos, "player", "mario2.png");
+    ball = player_new(spawn_pos, "player", "runner");
     spawn_actor(engine, CastToActor(ball));
 
     // paddle 01
-    vec2_t paddle01_pos = vec2_init(10, ctx->height / 2 - 100);
+    /*vec2_t paddle01_pos = vec2_init(10, ctx->height / 2 - 100);
     vec2_t paddle01_size = vec2_init(20, 100);
     paddles[0] = palette_new(paddle01_pos, paddle01_size, ball, "paddle01", 0, 0);
     spawn_actor(engine, CastToActor(paddles[0]));
@@ -62,20 +64,17 @@ static void _init(game_manager_t* gm)
     vec2_t paddle02_size = vec2_init(20, 100);
     paddles[1] = palette_new(paddle02_pos, paddle02_size, ball, "paddle02", 1, 1);
     spawn_actor(engine, CastToActor(paddles[1]));
-}
 
-vec2_t v = {150, 0};
+    vec2_t enemy_pos = vec2_init( ctx->width / 2 - 64, ctx->height / 2 - 64);
+    enemy = enemy_new(enemy_pos, "runner");
+    spawn_actor(engine, CastToActor(enemy));*/
+}
 
 static void _tick(game_manager_t* gm)
 {
-    timer = 0.0f;
-
     while(ctx->is_running)
     {
         ctx_update(ctx);
-
-        if(get_key(ctx, SDL_SCANCODE_K))
-            ball->move_player(ball, v);
     }
 
     // clean up everything

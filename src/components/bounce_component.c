@@ -13,7 +13,7 @@ static void _tick(bounce_component_t* comp)
 
     if(!player) return;
 
-    if(player->actor.transform.position.x + player->renderer->texture->width * player->actor.transform.scale.x > ctx->width)
+    /*if(player->actor.transform.position.x + player->renderer->texture->width * player->actor.transform.scale.x > ctx->width)
     {
         vec2_t ref = vec2_reflected(comp->moveball_ref->current_direction, vec2_init(-1, 0));
         comp->moveball_ref->current_direction = ref;
@@ -35,7 +35,7 @@ static void _tick(bounce_component_t* comp)
     {
         vec2_t ref = vec2_reflected(comp->moveball_ref->current_direction, vec2_init(0, -1));
         comp->moveball_ref->current_direction = ref;
-    }
+    }*/
 }
 
 static void _begin(bounce_component_t* comp)

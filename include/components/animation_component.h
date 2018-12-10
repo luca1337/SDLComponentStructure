@@ -2,12 +2,13 @@
 #define ANIMATION_COMPONENT_H
 
 #include <actor.h>
+#include <sprite.h>
 #include <texture.h>
 
 typedef struct animation_component{
     component_t component;
     actor_t* owner;
-    texture_t* sheet;
+    sprite_t* sheet;
     int width, height;
     int* key_frames;
     float frame_length;

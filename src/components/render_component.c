@@ -2,43 +2,33 @@
 #include <texture_mgr.h>
 #include <string.h>
 #include <stdlib.h>
+#include <engine_utils.h>
 
 extern ctx_t* ctx;
 extern texture_mgr_t* mgr;
 
-static void tick(render_component_t* c)
+static void _tick(render_component_t* comp)
 {
+    // set owner transform
+    comp->sprite->position = comp->owner->transform.position;
+    comp->sprite->rotation = comp->owner->transform.rotation;
+    comp->sprite->scale = comp->owner->transform.scale;
 
-    // wat else ?
-    if(c->texture) // i'm not gonna crash
-    {
-        c->texture->position = c->owner->transform.position;
-        c->texture->rotation = c->owner->transform.rotation;
-        c->texture->scale = c->owner->transform.scale;
-        c->texture->draw_tex(c->texture);
-    }
-    else
-    {
-        c->sprite->position = c->owner->transform.position;
-        c->sprite->rotation = c->owner->transform.rotation;
-        c->sprite->scale = c->owner->transform.scale;
-        c->sprite->draw_sprite(c->sprite, 255, 0, 0, 255);
-    }
+    comp->sprite->draw_texture(comp->sprite);
 }
 
-void render_component_init(render_component_t* c, actor_t* owner, const char* name, int sprite_mode, int width, int height, int pivot)
+static void _begin(render_component_t* comp)
 {
-    c->owner = owner;
+    comp->component.started = 1;
+}
 
-    // i don't like this shit
-    if(sprite_mode == 0)
-    {
-        c->texture = get_texture(mgr, name);
-    }
-    else if(sprite_mode == 1)
-    {
-        c->sprite = sprite_new(width, height, pivot);
-    }
+void render_component_init(render_component_t* comp, actor_t* owner, const char* name, int width, int height)
+{
+    comp->owner = owner;
+    comp->sprite = sprite_new(width, height);
+    texture_t* texture = get_texture(mgr, name);
+    comp->sprite->texture = texture->texture;
 
-    c->component.tick = (void(*)(component_t*))tick;
+    comp->component.tick = CastToFuncPtr(_tick, component_t);
+    comp->component.begin = CastToFuncPtr(_begin, component_t);
 }

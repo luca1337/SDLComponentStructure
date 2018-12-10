@@ -4,82 +4,89 @@
 
 extern ctx_t* ctx;
 
-#define MEMCPY_TEXTURE(w, h, data, color_arr){\
-    for(int y = 0; y < h; ++y){\
-        for(int x = 0; x < w; ++x){\
-            memcpy(&data[(y * h + x) * sizeof(color_arr)], color_arr, sizeof(color_arr));\
-        }\
-    }\
-}\
-
-static void _draw_sprite(struct sprite* s, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+static void _draw_sprite(sprite_t* sprite, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
-    s->rect.x = s->position.x;
-    s->rect.y = s->position.y;
-    s->rect.w = s->width * s->scale.x;
-    s->rect.h = s->height * s->scale.y;
+    sprite->rect.x = sprite->position.x;
+    sprite->rect.y = sprite->position.y;
+    sprite->rect.w = sprite->width * sprite->scale.x;
+    sprite->rect.h = sprite->height * sprite->scale.y;
 
-    SDL_RenderCopyEx(ctx->renderer, s->tex, NULL, &s->rect, s->rotation, &s->pivot, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(ctx->renderer, sprite->texture, NULL, &sprite->rect, sprite->rotation, &sprite->pivot, SDL_FLIP_NONE);
 }
 
-static void _change_sprite_color(struct sprite* sprite, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+static void _change_sprite_color(sprite_t* sprite, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
     int pitch = 0;
     unsigned char* pixels = NULL;
 
-    if (SDL_LockTexture(sprite->tex, NULL, (void **)&pixels, &pitch)) {
-        SDL_Log("Unable to lock texture: %s\n", SDL_GetError());
+    if (SDL_LockTexture(sprite->texture, NULL, (void **)&pixels, &pitch)) 
+    {
+        SDL_Log("unable to lock texture: %s", SDL_GetError());
         return;
     }
 
     unsigned char color[4] = { r, g, b, a };
-    MEMCPY_TEXTURE(sprite->width, sprite->height, pixels, color)
+    for(int y = 0; y < sprite->width; ++y){
+        for(int x = 0; x < sprite->height; ++x){
+            memcpy(&pixels[(y * sprite->height + x) * sizeof(color)], color, sizeof(color));
+        }
+    }
 
-    SDL_UnlockTexture(sprite->tex);
+    SDL_UnlockTexture(sprite->texture);
 }
 
-sprite_t* sprite_new(int width, int height, int centered_pivot)
+static void _draw_texture(sprite_t* texture)
 {
+    texture->rect.x = texture->position.x;
+    texture->rect.y = texture->position.y;
+    texture->rect.w = texture->width * texture->scale.x;
+    texture->rect.h = texture->height * texture->scale.y;
+
+    SDL_RenderCopyEx(ctx->renderer, texture->texture, NULL, &texture->rect, texture->rotation, &texture->pivot, SDL_FLIP_NONE);
+}
+
+static void _draw_texture_tiled(sprite_t* texture, int x_offset, int y_offset, int width, int height)
+{
+    texture->rect.x = texture->position.x;
+    texture->rect.y = texture->position.y;
+    texture->rect.w = width * texture->scale.x;
+    texture->rect.h = height * texture->scale.y;
+
+    texture->src.x = x_offset;
+    texture->src.y = y_offset;
+    texture->src.w = width;
+    texture->src.h = height;
+
+    SDL_RenderCopyEx(ctx->renderer, texture->texture, &texture->src, &texture->rect, texture->rotation, &texture->pivot, SDL_FLIP_NONE);
+}
+
+sprite_t* sprite_new(int width, int height)
+{
+    // the sprite must be only an empty frame buffer which only has a size 
+    // i dont need to fill it just when i create it, i need to make it empty
+    // so that i can draw the texture based on this size
+
+    // malloc the structure and put it on the heap
     sprite_t* sprite = malloc(sizeof(sprite_t));
     CHECK_RET(sprite, NULL, "could not allocate space for sprite")
     memset(sprite, 0, sizeof(sprite_t));
 
-    sprite->tex = SDL_CreateTexture(ctx->renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, width, height);
+    // create a "texture" from resource with given with and height
+    sprite->texture = SDL_CreateTexture(ctx->renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, width, height);
 
-    int pitch = 0;
-    unsigned char* pixels = NULL;
-
-    if (SDL_LockTexture(sprite->tex, NULL, (void **)&pixels, &pitch))
-    {
-        SDL_Log("Unable to lock texture: %s", SDL_GetError());
-        return NULL;
-    }
-
-    unsigned char color[4] = { 255, 0, 0, 255 };
-    for(int y = 0; y < width; ++y){
-        for(int x = 0; x < height; ++x){
-            memcpy(&pixels[(y * height + x) * sizeof(color)], color, sizeof(color));
-        }
-    }
-
-    SDL_UnlockTexture(sprite->tex);
+    // here i've got a simple empty frame buffer which can be filled with an image or with a color
 
     sprite->rect.w = width;
     sprite->rect.h = height;
 
-    sprite->width = sprite->rect.w;
-    sprite->height = sprite->rect.h;
+    sprite->width = width;
+    sprite->height = height;
 
-    if(centered_pivot == 1)
-    {
-        sprite->pivot.x = sprite->width / 2;
-        sprite->pivot.y = sprite->width / 2;
-    }
-
-    sprite->rotation = 0;
-
+    // setup our hooks for draw
     sprite->draw_sprite = _draw_sprite;
     sprite->change_sprite_color = _change_sprite_color;
+    sprite->draw_texture = _draw_texture;
+    sprite->draw_texture_tiled = _draw_texture_tiled;
 
     return sprite;
 }

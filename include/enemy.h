@@ -1,18 +1,15 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include <render_component.h>
-#include <moveup_component.h>
+#include <animation_component.h>
 #include <actor.h>
 #include <vec.h>
 
 typedef struct enemy{
     actor_t actor;
-    render_component_t* renderer;
-    vec2_t pos;
-    int width, height;
+    animation_component_t* animation_renderer;
 }enemy_t;
 
-enemy_t* enemy_new(float, float, const char*);
+enemy_t* enemy_new(vec2_t pos, const char*);
 
 #endif

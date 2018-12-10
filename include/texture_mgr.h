@@ -9,7 +9,7 @@ typedef struct texture_mgr{
 }texture_mgr_t;
 
 texture_mgr_t* texture_mrg_new();
-texture_t* add_texture(ctx_t*, texture_mgr_t*, const char*, const char*, uint32_t, int, int);
+texture_t* add_texture(texture_mgr_t*, const char*, const char*, uint32_t, int, int);
 texture_t* get_texture(texture_mgr_t*, const char*);
 void destroy_texture_mgr(texture_mgr_t*);
 

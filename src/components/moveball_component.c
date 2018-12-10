@@ -32,7 +32,7 @@ static void _tick(moveball_component_t* comp)
 
     if(!p) return;
     
-    if (comp->current_direction.x == directions[0].x && comp->current_direction.y == directions[0].y) //upright
+    /*if (comp->current_direction.x == directions[0].x && comp->current_direction.y == directions[0].y) //upright
         // flip none
         p->renderer->texture->flip_flag = SDL_FLIP_NONE;
     else if (comp->current_direction.x == directions[1].x && comp->current_direction.y == directions[1].y)
@@ -43,7 +43,7 @@ static void _tick(moveball_component_t* comp)
         p->renderer->texture->flip_flag = SDL_FLIP_NONE;
     else if (comp->current_direction.x == directions[3].x && comp->current_direction.y == directions[3].y)
         // flip none
-        p->renderer->texture->flip_flag = SDL_FLIP_HORIZONTAL;
+        p->renderer->texture->flip_flag = SDL_FLIP_HORIZONTAL;*/
 
     p->move_player(p, comp->current_direction);
 }

@@ -17,7 +17,7 @@ static void _tick(move_component_t* comp)
     if(!paddle) return;
 
     // change direction if the ball has collided with the paddle
-    if(comp->ball->actor.transform.position.x < paddle->actor.transform.position.x + paddle->width
+    /*if(comp->ball->actor.transform.position.x < paddle->actor.transform.position.x + paddle->width
         && comp->ball->actor.transform.position.x + comp->ball->actor.transform.scale.x > paddle->actor.transform.position.x
         && comp->ball->actor.transform.position.y < paddle->actor.transform.position.y + paddle->height
         && comp->ball->actor.transform.scale.y + comp->ball->actor.transform.position.y > paddle->actor.transform.position.y)
@@ -54,7 +54,7 @@ static void _tick(move_component_t* comp)
         {
             paddle->actor.transform.position.y += SPEED * ctx->delta_seconds;
         }
-    }
+    }*/
 }
 
 static void _begin(move_component_t* comp)
