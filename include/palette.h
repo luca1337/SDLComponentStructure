@@ -10,7 +10,7 @@
 
 typedef struct palette{
     actor_t actor;
-    vec2_t pos;
+    vec2_t position;
     int width, height;
     render_component_t* render_component;
     move_component_t* move_component;

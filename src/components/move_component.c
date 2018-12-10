@@ -16,15 +16,11 @@ static void _tick(move_component_t* comp)
 
     if(!paddle) return;
 
-    // write variables to update x and y
-    paddle->render_component->sprite->pos.x = paddle->pos.x;
-    paddle->render_component->sprite->pos.y = paddle->pos.y;
-
     // change direction if the ball has collided with the paddle
-    if(comp->ball->pos.x < paddle->pos.x + paddle->width
-        && comp->ball->pos.x + comp->ball->width > paddle->pos.x
-        && comp->ball->pos.y < paddle->pos.y + paddle->height
-        && comp->ball->height + comp->ball->pos.y > paddle->pos.y)
+    if(comp->ball->actor.transform.position.x < paddle->actor.transform.position.x + paddle->width
+        && comp->ball->actor.transform.position.x + comp->ball->actor.transform.scale.x > paddle->actor.transform.position.x
+        && comp->ball->actor.transform.position.y < paddle->actor.transform.position.y + paddle->height
+        && comp->ball->actor.transform.scale.y + comp->ball->actor.transform.position.y > paddle->actor.transform.position.y)
     {
         if(comp->side_paddle==0)
         {
@@ -45,18 +41,18 @@ static void _tick(move_component_t* comp)
     if(comp->auto_move)
     {
         float max = (ctx->height - paddle->height);
-        paddle->pos.y = CLAMP(comp->ball->pos.y, 0, max);
+        paddle->actor.transform.position.y = CLAMP(comp->ball->actor.transform.position.y, 0, max);
     }
     else
     {
-        if(get_key(ctx, SDL_SCANCODE_W) && paddle->pos.y > 0 )
+        if(get_key(ctx, SDL_SCANCODE_W) && paddle->actor.transform.position.y > 0 )
         {
-            paddle->pos.y += -SPEED * ctx->delta_seconds;
+            paddle->actor.transform.position.y += -SPEED * ctx->delta_seconds;
         }
 
-        if(get_key(ctx, SDL_SCANCODE_S) && paddle->pos.y + paddle->height < ctx->height)
+        if(get_key(ctx, SDL_SCANCODE_S) && paddle->actor.transform.position.y + paddle->height < ctx->height)
         {
-            paddle->pos.y += SPEED * ctx->delta_seconds;
+            paddle->actor.transform.position.y += SPEED * ctx->delta_seconds;
         }
     }
 }

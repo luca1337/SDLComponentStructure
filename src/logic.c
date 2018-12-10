@@ -32,7 +32,7 @@ static void _init(game_manager_t* gm)
     srand(time(NULL));
 
     //create the context
-    ctx = ctx_new("Test", 1280, 1024, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC, draw);
+    ctx = ctx_new("Test", 800, 600, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC, draw);
 
     //create the engine instance to manage all actors
     engine = engine_new();
@@ -64,6 +64,8 @@ static void _init(game_manager_t* gm)
     spawn_actor(engine, CastToActor(paddles[1]));
 }
 
+vec2_t v = {150, 0};
+
 static void _tick(game_manager_t* gm)
 {
     timer = 0.0f;
@@ -71,6 +73,9 @@ static void _tick(game_manager_t* gm)
     while(ctx->is_running)
     {
         ctx_update(ctx);
+
+        if(get_key(ctx, SDL_SCANCODE_K))
+            ball->move_player(ball, v);
     }
 
     // clean up everything

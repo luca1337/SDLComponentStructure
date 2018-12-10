@@ -16,6 +16,12 @@ actor_t* actor_new(const char* name)
     actor->c_head = NULL;
     actor->c_tail = NULL;
 
+    actor->transform.position = vec2_init(0, 0);
+    actor->transform.rotation = 0.0f;
+    actor->transform.scale = vec2_init(1, 1);
+
+    SDL_Log("Initialized an actor [%p]", actor);
+
     return actor;
 }
 

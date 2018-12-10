@@ -11,9 +11,13 @@ extern texture_mgr_t* mgr;
 
 static void _tick(animation_component_t* comp)
 {
+    comp->sheet->position = comp->owner->transform.position;
+    comp->sheet->rotation = comp->owner->transform.rotation;
+    comp->sheet->scale = comp->owner->transform.scale;
+
     // try to move it
     if(get_key(ctx, SDL_SCANCODE_U))
-        comp->sheet->pos.x += speed * ctx->delta_seconds;
+        comp->sheet->position.x += speed * ctx->delta_seconds;
 
     comp->timer += ctx->delta_seconds;
     if(comp->timer > comp->frame_length)
@@ -40,8 +44,9 @@ static void _begin(animation_component_t* comp)
     comp->component.started = 1;
 }
 
-void animation_component_init(animation_component_t* comp, const char* texture_name, int tiles_per_row, int tiles_per_column, int* key_frames, int number_of_keys, float frame_length)
+void animation_component_init(animation_component_t* comp, actor_t* owner, const char* texture_name, int tiles_per_row, int tiles_per_column, int* key_frames, int number_of_keys, float frame_length)
 {
+    comp->owner = owner;
     comp->sheet = get_texture(mgr, texture_name);
     comp->tiles_per_row = tiles_per_row;
     comp->tiles_per_column = tiles_per_column;

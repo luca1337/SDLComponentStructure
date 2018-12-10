@@ -7,27 +7,27 @@ extern ctx_t* ctx;
 
 static void _draw_tex(texture_t* self)
 {
-    self->rect.x = self->pos.x;
-    self->rect.y = self->pos.y;
-    self->rect.w = self->width;
-    self->rect.h = self->height;
+    self->rect.x = self->position.x;
+    self->rect.y = self->position.y;
+    self->rect.w = self->width * self->scale.x;
+    self->rect.h = self->height * self->scale.y;
 
-    SDL_RenderCopyEx(ctx->renderer, self->texture, NULL, &self->rect, self->degrees, &self->pivot, self->flip_flag);
+    SDL_RenderCopyEx(ctx->renderer, self->texture, NULL, &self->rect, self->rotation, &self->pivot, self->flip_flag);
 }
 
 static void _draw_tex_tiled(texture_t* self, int x_index, int y_index, int width, int height)
 {
-    self->rect.x = self->pos.x;
-    self->rect.y = self->pos.y;
-    self->rect.w = width;
-    self->rect.h = height;
+    self->rect.x = self->position.x;
+    self->rect.y = self->position.y;
+    self->rect.w = width * self->scale.x;
+    self->rect.h = height * self->scale.y;
 
     self->src.x = x_index;
     self->src.y = y_index;
     self->src.w = width;
     self->src.h = height;
 
-    SDL_RenderCopyEx(ctx->renderer, self->texture, &self->src, &self->rect, self->degrees, &self->pivot, self->flip_flag);
+    SDL_RenderCopyEx(ctx->renderer, self->texture, &self->src, &self->rect, self->rotation, &self->pivot, self->flip_flag);
 }
 
 texture_t* texture_new(const char* path)

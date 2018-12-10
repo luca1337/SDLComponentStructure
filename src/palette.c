@@ -8,10 +8,13 @@ palette_t* palette_new(vec2_t draw_pos, vec2_t size, player_t* ball, const char*
     palette_t* palette = malloc(sizeof(palette_t));
     CHECK_RET(palette, NULL, "could not allocate space for palette")
     memset(palette, 0, sizeof(palette_t));
+    palette->actor.transform.position = draw_pos;
+    palette->actor.transform.rotation = 0;
+    palette->actor.transform.scale = vec2_init(1, 1);
 
     // add some component..
     palette->render_component = COMPONENT_NEW(render_component, render_component_t);
-    render_component_init(palette->render_component, actor_name, 1, size.x, size.y, 1);
+    render_component_init(palette->render_component, &palette->actor, actor_name, 1, size.x, size.y, 1);
     add_component(&palette->actor, CastToComponent(palette->render_component));
 
     // move component for palettes
@@ -19,14 +22,8 @@ palette_t* palette_new(vec2_t draw_pos, vec2_t size, player_t* ball, const char*
     move_component_init(palette->move_component, CastToActor(palette), ball, side_paddle, auto_move);
     add_component(&palette->actor, CastToComponent(palette->move_component));
 
-    palette->render_component->sprite->pos.x = draw_pos.x;
-    palette->render_component->sprite->pos.y = draw_pos.y;
-
-    palette->pos.x = draw_pos.x;
-    palette->pos.y = draw_pos.y;
-
-    palette->width = size.x;
-    palette->height = size.y;
+    palette->width = palette->render_component->sprite->width;
+    palette->height = palette->render_component->sprite->height;
 
     return palette;
 }

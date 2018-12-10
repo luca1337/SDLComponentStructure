@@ -14,12 +14,12 @@ extern ctx_t* ctx;
 
 static void _draw_sprite(struct sprite* s, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
-    s->rect.x = s->pos.x;
-    s->rect.y = s->pos.y;
-    s->rect.w = s->width;
-    s->rect.h = s->height;
+    s->rect.x = s->position.x;
+    s->rect.y = s->position.y;
+    s->rect.w = s->width * s->scale.x;
+    s->rect.h = s->height * s->scale.y;
 
-    SDL_RenderCopyEx(ctx->renderer, s->tex, NULL, &s->rect, s->degrees, &s->pivot, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(ctx->renderer, s->tex, NULL, &s->rect, s->rotation, &s->pivot, SDL_FLIP_NONE);
 }
 
 static void _change_sprite_color(struct sprite* sprite, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
@@ -76,7 +76,7 @@ sprite_t* sprite_new(int width, int height, int centered_pivot)
         sprite->pivot.y = sprite->width / 2;
     }
 
-    sprite->degrees = 0;
+    sprite->rotation = 0;
 
     sprite->draw_sprite = _draw_sprite;
     sprite->change_sprite_color = _change_sprite_color;

@@ -51,8 +51,6 @@ texture_t* add_texture(ctx_t* ctx, texture_mgr_t* t_mgr, const char* name, const
     tex->id = 0;
     tex->width = width;
     tex->height = height;
-    tex->pos.x = 0;
-    tex->pos.y = 0;
 
     tex_list_append(t_mgr->textures, tex);
 

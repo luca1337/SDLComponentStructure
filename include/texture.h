@@ -19,8 +19,9 @@ typedef struct texture{
     char* name;
     int id;
     int width, height;
-    double degrees;
-    vec2_t pos;
+    vec2_t position;
+    float rotation;
+    vec2_t scale;
     void(*draw_tex)(struct texture* texture);
     void(*draw_tex_tiled)(struct texture* texture, int x_index, int y_index, int width, int height);
 }texture_t;

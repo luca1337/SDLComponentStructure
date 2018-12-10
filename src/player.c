@@ -14,20 +14,20 @@ extern engine_t* engine;
 
 static void move_player(player_t* p, const vec2_t dir)
 {
-    p->pos.x += dir.x * ctx->delta_seconds;
-    p->pos.y += dir.y * ctx->delta_seconds;
+    p->actor.transform.position.x += dir.x * ctx->delta_seconds;
+    p->actor.transform.position.y += dir.y * ctx->delta_seconds;
 }
 
 static void get_player_pos(player_t* p, vec2_t* v_out)
 {
-    v_out->x = p->pos.x;
-    v_out->y = p->pos.y;
+    v_out->x = p->actor.transform.position.x;
+    v_out->y = p->actor.transform.position.y;
 }
 
 static void get_player_size(player_t* p, int* x, int* y)
 {
-    *x = p->renderer->texture->width;
-    *y = p->renderer->texture->height;
+    *x = p->actor.transform.scale.x;
+    *y = p->actor.transform.scale.y;
 }
 
 player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_path)
@@ -37,9 +37,14 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     CHECK_RET(player, NULL, "could not allocate space for player struct\n");
     memset(player, 0, sizeof(player_t));
 
+    // initialize it's transform
+    player->actor.transform.position = vec2_init(spawn_pos.x, spawn_pos.y);
+    player->actor.transform.rotation = 0;
+    player->actor.transform.scale = vec2_init(1, 1);
+
     //setup renderer component
     player->renderer = COMPONENT_NEW(render_component, render_component_t);
-    render_component_init(player->renderer, actor_name, 0, 0, 0, 0);
+    render_component_init(player->renderer, &player->actor, actor_name, 0, 0, 0, 0);
     add_component(&player->actor, CastToComponent(player->renderer));
 
     //setup move component
@@ -52,26 +57,7 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     bounce_component_init(player->bounce, CastToActor(player));
     add_component(&player->actor, CastToComponent(player->bounce));
 
-    //animation component test
-    int number_of_keys = 4;
-    int* keys = (int*)malloc(sizeof(int) * number_of_keys);
-    keys[0] = 0;
-    keys[1] = 1;
-    keys[2] = 2;
-    keys[3] = 3;
-    player->animation = COMPONENT_NEW(animation_component, animation_component_t);
-    animation_component_init(player->animation, "runner", 7, 4, keys, number_of_keys, 1.0f);
-    add_component(&player->actor, CastToComponent(player->animation));
-
-    player->renderer->texture->pos.x = spawn_pos.x;
-    player->renderer->texture->pos.y = spawn_pos.y;
-
-    player->pos.x = spawn_pos.x;
-    player->pos.y = spawn_pos.y;
-
-    player->width = player->renderer->texture->width;
-    player->height = player->renderer->texture->height;
-
+    // hook our function pointers
     player->move_player = move_player;
     player->get_player_pos = get_player_pos;
     player->get_player_size = get_player_size;

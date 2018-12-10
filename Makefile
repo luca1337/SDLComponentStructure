@@ -4,7 +4,7 @@ LDFLAGS= -lSDL2 -L SDL/lib/x64
 
 all: tetris.exe
 
-tetris.exe: main.o logic.o music.o gfx.o texture.o tex_list.o texture_mgr.o player.o actor.o render_component.o moveup_component.o engine.o sprite.o vec.o palette.o moveball_component.o bounce_component.o move_component.o animation_component.o
+tetris.exe: main.o logic.o music.o gfx.o texture.o tex_list.o texture_mgr.o player.o actor.o render_component.o engine.o sprite.o vec.o palette.o moveball_component.o bounce_component.o move_component.o animation_component.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 main.o: src/main.c
@@ -35,9 +35,6 @@ actor.o: src/actor.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 render_component.o: src/components/render_component.c
-	$(CC) $(CFLAGS) -c -o $@ $^
-
-moveup_component.o: src/components/moveup_component.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 sprite.o: src/sprite.c

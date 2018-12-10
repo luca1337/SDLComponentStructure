@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <player.h>
 #include <stdio.h>
+#include <engine_utils.h>
 
 #define OFFSET  0.1
 
@@ -30,11 +31,7 @@ static void _tick(moveball_component_t* comp)
     player_t* p = (player_t*)comp->player;
 
     if(!p) return;
-
-    // write variables to update x and y
-    p->renderer->texture->pos.x = p->pos.x;
-    p->renderer->texture->pos.y = p->pos.y;
-
+    
     if (comp->current_direction.x == directions[0].x && comp->current_direction.y == directions[0].y) //upright
         // flip none
         p->renderer->texture->flip_flag = SDL_FLIP_NONE;
@@ -69,6 +66,6 @@ static void _begin(moveball_component_t* comp)
 void moveball_component_init(moveball_component_t* comp, actor_t* actor)
 {
     comp->actor = actor;
-    comp->component.tick = (void(*)(component_t*))_tick;
-    comp->component.begin = (void(*)(component_t*))_begin;
+    comp->component.tick = CastToFuncPtr(_tick, component_t);
+    comp->component.begin = CastToFuncPtr(_begin, component_t);
 }
