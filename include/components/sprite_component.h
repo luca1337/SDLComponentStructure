@@ -1,5 +1,5 @@
-#ifndef RENDER_COMPONENT_H
-#define RENDER_COMPONENT_H
+#ifndef SPRITE_COMPONENT_H
+#define SPRITE_COMPONENT_H
 
 #include <actor.h>
 #include <texture.h>
@@ -11,12 +11,12 @@
 * only the sprite can be drawn onto the screen, the texture must be only a frame buffer with an image
 */
 
-typedef struct render_component{
+typedef struct sprite_component{
     component_t component;
     actor_t* owner;
     sprite_t* sprite;
-}render_component_t;
+}sprite_component_t;
 
-void render_component_init(render_component_t*, actor_t* owner, const char* name, int width, int height);
+void sprite_component_init(sprite_component_t*, actor_t* owner, const char* name, int width, int height);
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <render_component.h>
+#include <sprite_component.h>
 #include <moveball_component.h>
 #include <bounce_component.h>
 #include <animation_component.h>
@@ -12,7 +12,7 @@
 
 typedef struct player{
     actor_t actor;
-    render_component_t* renderer;
+    sprite_component_t* renderer;
     animation_component_t* animation;
     moveball_component_t* moveball;
     bounce_component_t* bounce;

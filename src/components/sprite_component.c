@@ -1,4 +1,4 @@
-#include <render_component.h>
+#include <sprite_component.h>
 #include <texture_mgr.h>
 #include <string.h>
 #include <stdlib.h>
@@ -7,7 +7,7 @@
 extern ctx_t* ctx;
 extern texture_mgr_t* mgr;
 
-static void _tick(render_component_t* comp)
+static void _tick(sprite_component_t* comp)
 {
     // set owner transform
     comp->sprite->position = comp->owner->transform.position;
@@ -17,12 +17,12 @@ static void _tick(render_component_t* comp)
     comp->sprite->draw_texture(comp->sprite);
 }
 
-static void _begin(render_component_t* comp)
+static void _begin(sprite_component_t* comp)
 {
     comp->component.started = 1;
 }
 
-void render_component_init(render_component_t* comp, actor_t* owner, const char* name, int width, int height)
+void sprite_component_init(sprite_component_t* comp, actor_t* owner, const char* name, int width, int height)
 {
     comp->owner = owner;
     comp->sprite = sprite_new(width, height);

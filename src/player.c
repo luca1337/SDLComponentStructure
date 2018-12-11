@@ -43,8 +43,8 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     player->actor.transform.scale = vec2_init(1, 1);
 
     //setup renderer component
-    /*player->renderer = COMPONENT_NEW(render_component, render_component_t);
-    render_component_init(player->renderer, &player->actor, actor_name, 64, 64);
+    /*player->renderer = COMPONENT_NEW(sprite_component, sprite_component_t);
+    sprite_component_init(player->renderer, &player->actor, actor_name, 64, 64);
     add_component(&player->actor, CastToComponent(player->renderer));*/
 
     /*//setup move component
