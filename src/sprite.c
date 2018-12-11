@@ -35,14 +35,16 @@ static void _change_sprite_color(sprite_t* sprite, uint8_t r, uint8_t g, uint8_t
     SDL_UnlockTexture(sprite->texture);
 }
 
-static void _draw_texture(sprite_t* texture)
+static void _draw_texture(sprite_t* surface, texture_t* texture)
 {
-    texture->rect.x = texture->position.x;
-    texture->rect.y = texture->position.y;
-    texture->rect.w = texture->width * texture->scale.x;
-    texture->rect.h = texture->height * texture->scale.y;
+    surface->texture = texture->texture;
 
-    SDL_RenderCopyEx(ctx->renderer, texture->texture, NULL, &texture->rect, texture->rotation, &texture->pivot, SDL_FLIP_NONE);
+    surface->rect.x = surface->position.x;
+    surface->rect.y = surface->position.y;
+    surface->rect.w = surface->width * surface->scale.x;
+    surface->rect.h = surface->height * surface->scale.y;
+
+    SDL_RenderCopyEx(ctx->renderer, surface->texture, NULL, &surface->rect, surface->rotation, &surface->pivot, SDL_FLIP_NONE);
 }
 
 static void _draw_texture_tiled(sprite_t* texture, int x_offset, int y_offset, int width, int height)
@@ -62,11 +64,6 @@ static void _draw_texture_tiled(sprite_t* texture, int x_offset, int y_offset, i
 
 sprite_t* sprite_new(int width, int height)
 {
-    // the sprite must be only an empty frame buffer which only has a size 
-    // i dont need to fill it just when i create it, i need to make it empty
-    // so that i can draw the texture based on this size
-
-    // malloc the structure and put it on the heap
     sprite_t* sprite = malloc(sizeof(sprite_t));
     CHECK_RET(sprite, NULL, "could not allocate space for sprite")
     memset(sprite, 0, sizeof(sprite_t));

@@ -14,7 +14,9 @@ static void _tick(sprite_component_t* comp)
     comp->sprite->rotation = comp->owner->transform.rotation;
     comp->sprite->scale = comp->owner->transform.scale;
 
-    comp->sprite->draw_texture(comp->sprite);
+    comp->owner->transform.position.x += 150 * ctx->delta_seconds;
+
+    comp->sprite->draw_texture(comp->sprite, comp->texture);
 }
 
 static void _begin(sprite_component_t* comp)
@@ -22,12 +24,13 @@ static void _begin(sprite_component_t* comp)
     comp->component.started = 1;
 }
 
-void sprite_component_init(sprite_component_t* comp, actor_t* owner, const char* name, int width, int height)
+void sprite_component_init(sprite_component_t* comp, actor_t* owner, const char* texture_name, int width, int height)
 {
     comp->owner = owner;
+
+    comp->texture = get_texture(mgr, texture_name);
+
     comp->sprite = sprite_new(width, height);
-    texture_t* texture = get_texture(mgr, name);
-    comp->sprite->texture = texture->texture;
 
     comp->component.tick = CastToFuncPtr(_tick, component_t);
     comp->component.begin = CastToFuncPtr(_begin, component_t);

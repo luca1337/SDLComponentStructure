@@ -37,6 +37,7 @@ texture_t* texture_new(const char* file_path)
 
     texture->width = width;
     texture->height = height;
+    texture->bitmap = pixel;
 
     return texture;
 }

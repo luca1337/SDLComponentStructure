@@ -43,9 +43,9 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     player->actor.transform.scale = vec2_init(1, 1);
 
     //setup renderer component
-    /*player->renderer = COMPONENT_NEW(sprite_component, sprite_component_t);
-    sprite_component_init(player->renderer, &player->actor, actor_name, 64, 64);
-    add_component(&player->actor, CastToComponent(player->renderer));*/
+    player->renderer = COMPONENT_NEW(sprite_component, sprite_component_t);
+    sprite_component_init(player->renderer, &player->actor, actor_name, 32, 32);
+    add_component(&player->actor, CastToComponent(player->renderer));
 
     /*//setup move component
     player->moveball = COMPONENT_NEW(moveball_component, moveball_component_t);
@@ -58,12 +58,12 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     add_component(&player->actor, CastToComponent(player->bounce));*/
 
     //animation component
-    int num_of_keys = 4;
+    /*int num_of_keys = 4;
     int* key_frames = (int*)malloc(sizeof(int) * num_of_keys);
     key_frames[0] = 0; key_frames[1] = 1; key_frames[2] = 2; key_frames[3] = 3;
     player->animation = COMPONENT_NEW(animation_component, animation_component_t);
     animation_component_init(player->animation, &player->actor, tex_path, 7, 4, key_frames, num_of_keys, 0.3f);
-    add_component(&player->actor, CastToComponent(player->animation));
+    add_component(&player->actor, CastToComponent(player->animation));*/
 
     // hook our function pointers
     player->move_player = move_player;

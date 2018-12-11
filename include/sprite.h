@@ -16,7 +16,7 @@ typedef struct sprite{
     int width, height;
     void(*draw_sprite)(struct sprite* sprite, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
     void(*change_sprite_color)(struct sprite*, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-    void(*draw_texture)(struct sprite* sprite);
+    void(*draw_texture)(struct sprite* surface, texture_t* texture);
     void(*draw_texture_tiled)(struct sprite* sprite, int x_offset, int y_offset, int width, int height);
 }sprite_t;
 
