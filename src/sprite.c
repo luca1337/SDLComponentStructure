@@ -4,17 +4,28 @@
 
 extern ctx_t* ctx;
 
-static void _draw_sprite(sprite_t* sprite, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+static void _draw_sprite(sprite_t* sprite)
 {
     sprite->rect.x = sprite->position.x;
     sprite->rect.y = sprite->position.y;
     sprite->rect.w = sprite->width * sprite->scale.x;
     sprite->rect.h = sprite->height * sprite->scale.y;
 
-    SDL_RenderCopyEx(ctx->renderer, sprite->texture, NULL, &sprite->rect, sprite->rotation, &sprite->pivot, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(ctx->renderer, sprite->texture, NULL, &sprite->rect, sprite->rotation, &sprite->pivot, sprite->flip_flag);
 }
 
-static void _change_sprite_color(sprite_t* sprite, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+static void _draw_sprite_color(sprite_t* sprite, color_t color)
+{
+    sprite->rect.x = sprite->position.x;
+    sprite->rect.y = sprite->position.y;
+    sprite->rect.w = sprite->width * sprite->scale.x;
+    sprite->rect.h = sprite->height * sprite->scale.y;
+
+    sprite->change_sprite_color(sprite, color);
+    SDL_RenderCopyEx(ctx->renderer, sprite->texture, NULL, &sprite->rect, sprite->rotation, &sprite->pivot, sprite->flip_flag);
+}
+
+static void _change_sprite_color(sprite_t* sprite, color_t color)
 {
     int pitch = 0;
     unsigned char* pixels = NULL;
@@ -25,10 +36,10 @@ static void _change_sprite_color(sprite_t* sprite, uint8_t r, uint8_t g, uint8_t
         return;
     }
 
-    unsigned char color[4] = { r, g, b, a };
+    unsigned char colors[4] = { color.r, color.g, color.b, color.a };
     for(int y = 0; y < sprite->width; ++y){
         for(int x = 0; x < sprite->height; ++x){
-            memcpy(&pixels[(y * sprite->height + x) * sizeof(color)], color, sizeof(color));
+            memcpy(&pixels[(y * sprite->height + x) * sizeof(color)], colors, sizeof(color));
         }
     }
 
@@ -43,7 +54,7 @@ static void _draw_texture(sprite_t* texture)
     texture->rect.h = texture->height * texture->scale.y;
 
     SDL_SetTextureBlendMode(texture->texture, SDL_BLENDMODE_BLEND);
-    SDL_RenderCopyEx(ctx->renderer, texture->texture, NULL, &texture->rect, texture->rotation, &texture->pivot, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(ctx->renderer, texture->texture, NULL, &texture->rect, texture->rotation, &texture->pivot, texture->flip_flag);
 }
 
 static void _draw_texture_tiled(sprite_t* texture, int x_offset, int y_offset, int width, int height)
@@ -59,7 +70,39 @@ static void _draw_texture_tiled(sprite_t* texture, int x_offset, int y_offset, i
     texture->src.h = height;
 
     SDL_SetTextureBlendMode(texture->texture, SDL_BLENDMODE_BLEND);
-    SDL_RenderCopyEx(ctx->renderer, texture->texture, &texture->src, &texture->rect, texture->rotation, &texture->pivot, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(ctx->renderer, texture->texture, &texture->src, &texture->rect, texture->rotation, &texture->pivot, texture->flip_flag);
+}
+
+static int _flip_x(sprite_t* sprite, uint8_t flip)
+{
+    if(flip == 0)
+    {
+        sprite->flip_flag = SDL_FLIP_NONE;
+        return 1;
+    }
+    else if(flip == 1)
+    {
+        sprite->flip_flag = SDL_FLIP_HORIZONTAL;
+        return 0;
+    }
+
+    return -1;
+}
+
+static int _flip_y(sprite_t* sprite, uint8_t flip)
+{
+    if(flip == 0)
+    {
+        sprite->flip_flag = SDL_FLIP_NONE;
+        return 1;
+    }
+    else if(flip == 1)
+    {
+        sprite->flip_flag = SDL_FLIP_VERTICAL;
+        return 0;
+    }
+
+    return -1;
 }
 
 sprite_t* sprite_new(int width, int height)
@@ -81,9 +124,12 @@ sprite_t* sprite_new(int width, int height)
 
     // setup our hooks for draw
     sprite->draw_sprite = _draw_sprite;
+    sprite->draw_sprite_color = _draw_sprite_color;
     sprite->change_sprite_color = _change_sprite_color;
     sprite->draw_texture = _draw_texture;
     sprite->draw_texture_tiled = _draw_texture_tiled;
+    sprite->flip_x = _flip_x;
+    sprite->flip_y = _flip_y;
 
     return sprite;
 }

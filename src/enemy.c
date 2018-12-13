@@ -15,7 +15,7 @@ enemy_t* enemy_new(vec2_t pos, const char* texture_name)
     memset(enemy, 0, sizeof(enemy_t));
     enemy->actor.transform.position = pos;
     enemy->actor.transform.rotation = 0;
-    enemy->actor.transform.scale = vec2_init(2, 2);
+    enemy->actor.transform.scale = vec2_init(1, 1);
 
     //animation component
     int num_of_keys = 27;
