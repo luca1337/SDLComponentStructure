@@ -17,7 +17,7 @@ static void _tick(animation_component_t* comp)
 
     // try to move it
     if(get_key(ctx, SDL_SCANCODE_U))
-        comp->sheet->position.x += speed * ctx->delta_seconds;
+        comp->owner->transform.position.x += speed * ctx->delta_seconds;
 
     comp->timer += ctx->delta_seconds;
     if(comp->timer > comp->frame_length)

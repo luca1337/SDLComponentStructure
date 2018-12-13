@@ -40,7 +40,7 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     // initialize it's transform
     player->actor.transform.position = vec2_init(spawn_pos.x, spawn_pos.y);
     player->actor.transform.rotation = 0;
-    player->actor.transform.scale = vec2_init(1, 1);
+    player->actor.transform.scale = vec2_init(2, 2);
 
     //setup renderer component
     player->renderer = COMPONENT_NEW(sprite_component, sprite_component_t);

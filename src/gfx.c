@@ -51,8 +51,10 @@ void ctx_update(ctx_t* ctx)
     SDL_PumpEvents();
 
     // clear color
-    SDL_SetRenderDrawColor(ctx->renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(ctx->renderer, 255, 0, 0, 255);
     SDL_RenderClear(ctx->renderer);
+
+    SDL_SetRenderDrawBlendMode(ctx->renderer, SDL_BLENDMODE_BLEND);
 
     SDL_Event event;
     while (SDL_PollEvent(&event))

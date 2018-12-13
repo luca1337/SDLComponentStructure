@@ -63,11 +63,11 @@ static void _init(game_manager_t* gm)
     vec2_t paddle02_pos = vec2_init( (ctx->width - 20) - 10, ctx->height / 2 - 100);
     vec2_t paddle02_size = vec2_init(20, 100);
     paddles[1] = palette_new(paddle02_pos, paddle02_size, ball, "paddle02", 1, 1);
-    spawn_actor(engine, CastToActor(paddles[1]));
+    spawn_actor(engine, CastToActor(paddles[1]));*/
 
-    vec2_t enemy_pos = vec2_init( ctx->width / 2 - 64, ctx->height / 2 - 64);
+    vec2_t enemy_pos = vec2_init( 50, 50);
     enemy = enemy_new(enemy_pos, "runner");
-    spawn_actor(engine, CastToActor(enemy));*/
+    spawn_actor(engine, CastToActor(enemy));
 }
 
 static void _tick(game_manager_t* gm)

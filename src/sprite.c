@@ -35,16 +35,15 @@ static void _change_sprite_color(sprite_t* sprite, uint8_t r, uint8_t g, uint8_t
     SDL_UnlockTexture(sprite->texture);
 }
 
-static void _draw_texture(sprite_t* surface, texture_t* texture)
+static void _draw_texture(sprite_t* texture)
 {
-    surface->texture = texture->texture;
+    texture->rect.x = texture->position.x;
+    texture->rect.y = texture->position.y;
+    texture->rect.w = texture->width * texture->scale.x;
+    texture->rect.h = texture->height * texture->scale.y;
 
-    surface->rect.x = surface->position.x;
-    surface->rect.y = surface->position.y;
-    surface->rect.w = surface->width * surface->scale.x;
-    surface->rect.h = surface->height * surface->scale.y;
-
-    SDL_RenderCopyEx(ctx->renderer, surface->texture, NULL, &surface->rect, surface->rotation, &surface->pivot, SDL_FLIP_NONE);
+    SDL_SetTextureBlendMode(texture->texture, SDL_BLENDMODE_BLEND);
+    SDL_RenderCopyEx(ctx->renderer, texture->texture, NULL, &texture->rect, texture->rotation, &texture->pivot, SDL_FLIP_NONE);
 }
 
 static void _draw_texture_tiled(sprite_t* texture, int x_offset, int y_offset, int width, int height)
@@ -59,6 +58,7 @@ static void _draw_texture_tiled(sprite_t* texture, int x_offset, int y_offset, i
     texture->src.w = width;
     texture->src.h = height;
 
+    SDL_SetTextureBlendMode(texture->texture, SDL_BLENDMODE_BLEND);
     SDL_RenderCopyEx(ctx->renderer, texture->texture, &texture->src, &texture->rect, texture->rotation, &texture->pivot, SDL_FLIP_NONE);
 }
 
