@@ -6,6 +6,7 @@
 #include <bounce_component.h>
 #include <animation_component.h>
 #include <quad_renderer_component.h>
+#include <collider.h>
 #include <transform.h>
 #include <actor.h>
 
@@ -18,6 +19,7 @@ typedef struct player{
     moveball_component_t* moveball;
     bounce_component_t* bounce;
     quad_renderer_t* quad;
+    collider_t* collider;
     void(*move_player)(struct player*, const vec2_t);
     void(*get_player_pos)(struct player*, vec2_t*);
     void(*get_player_size)(struct player*, int*, int*);

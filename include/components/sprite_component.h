@@ -15,7 +15,6 @@ typedef struct sprite_component{
     component_t component;
     actor_t* owner;
     sprite_t* sprite;
-    texture_t* texture;
 }sprite_component_t;
 
 void sprite_component_init(sprite_component_t*, actor_t* owner, const char* name, int width, int height);

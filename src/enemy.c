@@ -28,5 +28,10 @@ enemy_t* enemy_new(vec2_t pos, const char* texture_name)
     animation_component_init(enemy->animation_renderer, &enemy->actor, texture_name, 7, 4, key_frames, num_of_keys, 0.02f);
     add_component(&enemy->actor, CastToComponent(enemy->animation_renderer));
 
+    //collider component
+    enemy->collider = COMPONENT_NEW(collider, collider_t);
+    collider_init(enemy->collider, &enemy->actor, enemy->animation_renderer->width, enemy->animation_renderer->height);
+    add_component(&enemy->actor, CastToComponent(enemy->collider));
+
     return enemy;
 }

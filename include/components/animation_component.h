@@ -8,7 +8,7 @@
 typedef struct animation_component{
     component_t component;
     actor_t* owner;
-    sprite_t* sheet;
+    sprite_t* sprite;
     int width, height;
     int* key_frames;
     float frame_length;

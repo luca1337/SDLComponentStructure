@@ -48,9 +48,14 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     add_component(&player->actor, CastToComponent(player->renderer));
 
     //quad component
-    player->quad = COMPONENT_NEW(quad_renderer, quad_renderer_t);
+    /*player->quad = COMPONENT_NEW(quad_renderer, quad_renderer_t);
     quad_renderer_init(player->quad, &player->actor, 45, 20);
-    add_component(&player->actor, CastToComponent(player->quad));
+    add_component(&player->actor, CastToComponent(player->quad));*/
+
+    //collider component
+    player->collider = COMPONENT_NEW(collider, collider_t);
+    collider_init(player->collider, &player->actor, player->renderer->sprite->width, player->renderer->sprite->height);
+    add_component(&player->actor, CastToComponent(player->collider));
 
     /*//setup move component
     player->moveball = COMPONENT_NEW(moveball_component, moveball_component_t);

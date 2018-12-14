@@ -11,9 +11,9 @@ extern texture_mgr_t* mgr;
 
 static void _tick(animation_component_t* comp)
 {
-    comp->sheet->position = comp->owner->transform.position;
-    comp->sheet->rotation = comp->owner->transform.rotation;
-    comp->sheet->scale = comp->owner->transform.scale;
+    comp->sprite->position = comp->owner->transform.position;
+    comp->sprite->rotation = comp->owner->transform.rotation;
+    comp->sprite->scale = comp->owner->transform.scale;
 
     // try to move it
     if(get_key(ctx, SDL_SCANCODE_U))
@@ -34,7 +34,7 @@ static void _tick(animation_component_t* comp)
     int x_index = (comp->current_index  % comp->tiles_per_row) * comp->width;
     int y_index = (comp->current_index  / comp->tiles_per_row) * comp->height;
 
-    comp->sheet->draw_texture_tiled(comp->sheet, x_index, y_index, comp->width, comp->height);
+    comp->sprite->draw_texture_tiled(comp->sprite, x_index, y_index, comp->width, comp->height);
 }
 
 static void _begin(animation_component_t* comp)
@@ -48,15 +48,15 @@ void animation_component_init(animation_component_t* comp, actor_t* owner, const
 {
     comp->owner = owner;
     texture_t* texture = get_texture(mgr, texture_name);
-    comp->sheet = sprite_new(texture->width, texture->height);
-    comp->sheet->texture = texture->texture;
+    comp->sprite = sprite_new(texture->width, texture->height);
+    comp->sprite->texture = texture->texture;
     comp->tiles_per_row = tiles_per_row;
     comp->tiles_per_column = tiles_per_column;
     comp->key_frames = key_frames;
     comp->frame_length = frame_length;
     comp->num_of_key_frames = number_of_keys - 1;
-    comp->width = comp->sheet->width / comp->tiles_per_row;
-    comp->height = comp->sheet->height / comp->tiles_per_column;
+    comp->width = comp->sprite->width / comp->tiles_per_row;
+    comp->height = comp->sprite->height / comp->tiles_per_column;
 
     comp->component.tick = CastToFuncPtr(_tick, component_t);
     comp->component.begin = CastToFuncPtr(_begin, component_t);
