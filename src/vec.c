@@ -72,3 +72,9 @@ int vec2_normalize(vec2_t* v)
     v->y = v->y / v_len;
     return 0;
 }
+
+void vec2_interpolate(vec2_t* v0, vec2_t* v1, float t)
+{
+    v0->x += v1->x * t;
+    v0->y += v1->y * t;
+}

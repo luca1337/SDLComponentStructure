@@ -56,6 +56,12 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     player->collider = COMPONENT_NEW(collider, collider_t);
     collider_init(player->collider, &player->actor, player->renderer->sprite->width, player->renderer->sprite->height);
     add_component(&player->actor, CastToComponent(player->collider));
+    player->collider->debug = 1;
+
+    //rigid bodyyy
+    player->rb = COMPONENT_NEW(rigid_body, rigid_body_t);
+    rigid_body_init(player->rb, &player->actor, 0);
+    add_component(&player->actor, CastToComponent(player->rb));
 
     /*//setup move component
     player->moveball = COMPONENT_NEW(moveball_component, moveball_component_t);
@@ -66,14 +72,6 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     player->bounce = COMPONENT_NEW(bounce_component, bounce_component_t);
     bounce_component_init(player->bounce, CastToActor(player));
     add_component(&player->actor, CastToComponent(player->bounce));*/
-
-    //animation component
-    /*int num_of_keys = 4;
-    int* key_frames = (int*)malloc(sizeof(int) * num_of_keys);
-    key_frames[0] = 0; key_frames[1] = 1; key_frames[2] = 2; key_frames[3] = 3;
-    player->animation = COMPONENT_NEW(animation_component, animation_component_t);
-    animation_component_init(player->animation, &player->actor, tex_path, 7, 4, key_frames, num_of_keys, 0.3f);
-    add_component(&player->actor, CastToComponent(player->animation));*/
 
     // hook our function pointers
     player->move_player = move_player;

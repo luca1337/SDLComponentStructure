@@ -17,5 +17,6 @@ int vec2_normalize(vec2_t*);
 vec2_t vec2_scaled(vec2_t, float);
 float vec2_dot(vec2_t, vec2_t);
 vec2_t vec2_reflected(vec2_t, vec2_t);
+void vec2_interpolate(vec2_t* v0, vec2_t* v1, float t);
 
 #endif

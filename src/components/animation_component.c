@@ -19,6 +19,9 @@ static void _tick(animation_component_t* comp)
     if(get_key(ctx, SDL_SCANCODE_U))
         comp->owner->transform.position.x += speed * ctx->delta_seconds;
 
+    //rot around center of mass
+    comp->owner->transform.rotation += speed * ctx->delta_seconds;
+
     comp->timer += ctx->delta_seconds;
     if(comp->timer > comp->frame_length)
     {
@@ -57,6 +60,10 @@ void animation_component_init(animation_component_t* comp, actor_t* owner, const
     comp->num_of_key_frames = number_of_keys - 1;
     comp->width = comp->sprite->width / comp->tiles_per_row;
     comp->height = comp->sprite->height / comp->tiles_per_column;
+
+    // pivot ?
+    comp->sprite->pivot.x = (comp->width * comp->owner->transform.scale.x) / 2;
+    comp->sprite->pivot.y = (comp->height * comp->owner->transform.scale.y) / 2;
 
     comp->component.tick = CastToFuncPtr(_tick, component_t);
     comp->component.begin = CastToFuncPtr(_begin, component_t);

@@ -28,7 +28,7 @@ int spawn_actor(engine_t* e, actor_t* actor)
 }
 
 
-int tick_actors(engine_t* e)
+int engine_tick(engine_t* e)
 {
     actor_t* actor = e->head;
     while(actor)

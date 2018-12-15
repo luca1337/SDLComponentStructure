@@ -3,6 +3,7 @@
 
 #include <component.h>
 #include <vec.h>
+#include <engine_utils.h>
 
 typedef struct transform{
     component_t component;
@@ -11,6 +12,6 @@ typedef struct transform{
     vec2_t scale;
 }transform_t;
 
-void transform_component_init();
+void transform_internal_init(transform_t* transform);
 
 #endif

@@ -26,7 +26,7 @@ int cnt = 0;
 
 static void draw(ctx_t* ctx)
 {
-    tick_actors(engine);
+    engine_tick(engine);
 }
 
 static void _init(game_manager_t* gm)

@@ -21,6 +21,9 @@ void quad_renderer_init(quad_renderer_t* quad_renderer, actor_t* owner, int widt
 
     quad_renderer->sprite = sprite_new(width, height);
 
+    quad_renderer->sprite->pivot.x = (quad_renderer->sprite->width * quad_renderer->owner->transform.scale.x) / 2;
+    quad_renderer->sprite->pivot.y = (quad_renderer->sprite->height * quad_renderer->owner->transform.scale.y) / 2;
+
     // quad_renderer->sprite->change_sprite_color(quad_renderer->sprite, 0, 0, 255, 255);
 
     quad_renderer->component.begin = CastToFuncPtr(_begin, component_t);
