@@ -30,7 +30,7 @@ static void get_player_size(player_t* p, int* x, int* y)
     *y = p->actor.transform.scale.y;
 }
 
-player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_path)
+player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_path, char gravity, char can_mov)
 {
     // crate player 
     player_t* player = malloc(sizeof(player_t));
@@ -44,7 +44,7 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
 
     //setup renderer component
     player->renderer = COMPONENT_NEW(sprite_component, sprite_component_t);
-    sprite_component_init(player->renderer, &player->actor, actor_name, 32, 32);
+    sprite_component_init(player->renderer, &player->actor, actor_name, 32, 32, can_mov);
     add_component(&player->actor, CastToComponent(player->renderer));
 
     //quad component
@@ -58,9 +58,11 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     add_component(&player->actor, CastToComponent(player->collider));
     player->collider->debug = 1;
 
+    SDL_Log("player center_x: [%.2f] player center_y [%.2f]", player->collider->get_center(player->collider).x, player->collider->get_center(player->collider).y);
+
     //rigid bodyyy
     player->rb = COMPONENT_NEW(rigid_body, rigid_body_t);
-    rigid_body_init(player->rb, &player->actor, 0);
+    rigid_body_init(player->rb, &player->actor, gravity);
     add_component(&player->actor, CastToComponent(player->rb));
 
     /*//setup move component

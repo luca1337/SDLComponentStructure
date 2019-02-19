@@ -15,7 +15,7 @@ ctx_t* ctx_new(const char* title, int width, int height, unsigned flags, void(*_
 
     SDL_Init(SDL_INIT_AUDIO|SDL_INIT_VIDEO);
 
-    ctx->window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
+    ctx->window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
     if(!ctx->window)
     {
         fprintf(stderr, "Could not create SDL window, error: %s\n", SDL_GetError());

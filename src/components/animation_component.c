@@ -3,6 +3,7 @@
 #include <string.h>
 #include <engine_utils.h>
 #include <texture_mgr.h>
+#include <math.h>
 
 #define speed 150
 
@@ -16,11 +17,20 @@ static void _tick(animation_component_t* comp)
     comp->sprite->scale = comp->owner->transform.scale;
 
     // try to move it
-    if(get_key(ctx, SDL_SCANCODE_U))
+    /*if(get_key(ctx, SDL_SCANCODE_D))
         comp->owner->transform.position.x += speed * ctx->delta_seconds;
 
+    if(get_key(ctx, SDL_SCANCODE_A))
+        comp->owner->transform.position.x += -speed * ctx->delta_seconds;
+
+    if(get_key(ctx, SDL_SCANCODE_W))
+        comp->owner->transform.position.y += -speed * ctx->delta_seconds;
+
+    if(get_key(ctx, SDL_SCANCODE_S))
+        comp->owner->transform.position.y += speed * ctx->delta_seconds;*/
+
     //rot around center of mass
-    comp->owner->transform.rotation += speed * ctx->delta_seconds;
+    // comp->owner->transform.rotation += speed * ctx->delta_seconds;
 
     comp->timer += ctx->delta_seconds;
     if(comp->timer > comp->frame_length)

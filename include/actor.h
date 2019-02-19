@@ -17,5 +17,7 @@ typedef struct actor{
 actor_t* actor_new(const char*);
 int add_component(actor_t*, component_t*);
 int get_component(actor_t*, const char*, component_t**);
+component_t* get_component_by_name(actor_t*, const char*);
+void set_name(actor_t* actor, const char* name);
 
 #endif

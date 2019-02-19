@@ -20,9 +20,17 @@ actor_t* actor_new(const char* name)
     actor->transform.rotation = 0.0f;
     actor->transform.scale = vec2_init(1, 1);
 
-    SDL_Log("Initialized an actor [%p]", actor);
+    // SDL_Log("Initialized an actor [%p]", actor);
 
     return actor;
+}
+
+void set_name(actor_t* actor, const char* name)
+{
+    int len = strlen(name);
+    char* buffer = malloc(len + 1);
+    strcpy_s(buffer, len + 1, name);
+    actor->name = buffer;
 }
 
 int add_component(actor_t* actor, component_t* comp)
@@ -58,4 +66,23 @@ int get_component(actor_t* actor, const char* c_name, component_t** out_c)
     }
 
     return 0;
+}
+
+component_t* get_component_by_name(actor_t* actor, const char* c_name)
+{
+    if(actor->c_head == NULL)
+        return NULL;
+
+    component_t* current = actor->c_head;
+    while(current)
+    {
+        if(!strcmp(current->name, c_name))
+        {
+            return current;
+        }
+
+        current = current->next;
+    }
+
+    return NULL;
 }

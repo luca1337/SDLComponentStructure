@@ -30,13 +30,15 @@ enemy_t* enemy_new(vec2_t pos, const char* texture_name)
 
     //collider component
     enemy->collider = COMPONENT_NEW(collider, collider_t);
-    collider_init(enemy->collider, &enemy->actor, enemy->animation_renderer->width, enemy->animation_renderer->height);
+    collider_init(enemy->collider, &enemy->actor, (enemy->animation_renderer->width), enemy->animation_renderer->height);
     add_component(&enemy->actor, CastToComponent(enemy->collider));
     enemy->collider->debug = 1;
 
+    SDL_Log("enemy center_x: [%.2f] enemy center_y [%.2f]", enemy->collider->get_half_size(enemy->collider).x, enemy->collider->get_half_size(enemy->collider).y);
+
     //rigid bodyyy
     enemy->rb = COMPONENT_NEW(rigid_body, rigid_body_t);
-    rigid_body_init(enemy->rb, &enemy->actor, 1);
+    rigid_body_init(enemy->rb, &enemy->actor, 0);
     add_component(&enemy->actor, CastToComponent(enemy->rb));
 
     return enemy;

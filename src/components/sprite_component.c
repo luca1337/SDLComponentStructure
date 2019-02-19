@@ -14,6 +14,22 @@ static void _tick(sprite_component_t* comp)
     comp->sprite->rotation = comp->owner->transform.rotation;
     comp->sprite->scale = comp->owner->transform.scale;
 
+    if(comp->can_mov)
+    {
+        // try to move it
+        if(get_key(ctx, SDL_SCANCODE_D))
+            comp->owner->transform.position.x += 150 * ctx->delta_seconds;
+
+        if(get_key(ctx, SDL_SCANCODE_A))
+            comp->owner->transform.position.x += -150 * ctx->delta_seconds;
+
+        if(get_key(ctx, SDL_SCANCODE_W))
+            comp->owner->transform.position.y += -150 * ctx->delta_seconds;
+
+        if(get_key(ctx, SDL_SCANCODE_S))
+            comp->owner->transform.position.y += 150 * ctx->delta_seconds;
+    }
+
     comp->owner->transform.rotation += 150.0f * ctx->delta_seconds;
 
     comp->sprite->draw_texture(comp->sprite);
@@ -24,9 +40,10 @@ static void _begin(sprite_component_t* comp)
     comp->component.started = 1;
 }
 
-void sprite_component_init(sprite_component_t* comp, actor_t* owner, const char* texture_name, int width, int height)
+void sprite_component_init(sprite_component_t* comp, actor_t* owner, const char* texture_name, int width, int height, char can_mov)
 {
     comp->owner = owner;
+    comp->can_mov = can_mov;
 
     texture_t* tex = get_texture(mgr, texture_name);
     comp->sprite = sprite_new(width, height);

@@ -2,31 +2,65 @@
 
 #include <utils.h>
 #include <stdlib.h>
+#include <physics.h>
 
 engine_t* engine_new()
 {
     engine_t* engine = malloc(sizeof(engine_t));
     CHECK_RET(engine, NULL, "could not allocate space for engine initialization..")
     memset(engine, 0, sizeof(engine_t));
+
+    engine->collision_pairs = dynamic_array_new(4, NULL);
+
     return engine;
 }
 
-int spawn_actor(engine_t* e, actor_t* actor)
+int spawn_actor(engine_t* e, actor_t* actor, const char* name)
 {
-    if(e->head == NULL) //list first element?
+    if(e->head == NULL)
     {
         e->head = actor;
         e->tail = actor;
+        set_name(actor, name);
+        e->actor_count++;
+        dynamic_array_insert(e->collision_pairs, (void*)actor);
     }
     else
     {
         e->tail->next = actor;
         actor->prev = e->tail;
         e->tail = actor;
+        set_name(actor, name);
+        e->actor_count++;
+        dynamic_array_insert(e->collision_pairs, (void*)actor);
     }
     return 0;
 }
 
+char checked = 0;
+
+void check_collisions(engine_t* engine)
+{
+    for (int i = 0; i < engine->actor_count; i++)
+    {
+        actor_t* first = (actor_t*)engine->collision_pairs->data[i];
+        collider_t* a = get_component_by_name(first, "collider");
+
+        for(int j = 0; j < engine->actor_count; j++)
+        {
+            actor_t* second = (actor_t*)engine->collision_pairs->data[j];
+
+            if(second == first)
+                continue;
+
+            collider_t* b = get_component_by_name(second, "collider");
+
+            hit_state_t hit = aabb(a, b);
+
+            resolve_collisions(a, b, hit.normal);
+        }
+    }
+}
 
 int engine_tick(engine_t* e)
 {
@@ -45,11 +79,14 @@ int engine_tick(engine_t* e)
                 c->begin(c);
 
             if(!c->tick)
-                continue;
+            {
+                c = c->next;
+            }
 
             c->tick(c);
             c = c->next;
         }
+
         actor = actor->next;
     }
     return 0;

@@ -21,8 +21,11 @@ typedef struct collider{
     int width,height;
     vec2_t half;
     vec2_t center;
+    vec2_t size;
     uint8_t debug;
     void(*debug_draw_collider)(struct collider* collider);
+    vec2_t(*get_center)(struct collider* collider);
+    vec2_t(*get_half_size)(struct collider* collider);
 }collider_t;
 
 void collider_init(collider_t* collider, actor_t* owner, int width, int height);
