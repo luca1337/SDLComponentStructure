@@ -5,7 +5,7 @@
 #include <rigid_body.h>
 #include <hit_state.h>
 
-// #define check_sign(x) (x == 0) ? 0 : (x < 0) ? -1 : (x > 0) ? 1 : 0
+#define check_sign(x) (x == 0) ? 0 : (x < 0) ? -1 : (x > 0) ? 1 : 0
 
 int intersect(collider_t* a, collider_t* b)
 {
@@ -17,18 +17,6 @@ int intersect(collider_t* a, collider_t* b)
         return 1;
     }
     return 0;
-}
-
-int check_sign(int num)
-{
-    if(num == 0)
-        return 0;
-    else if(num < 0)
-        return -1;
-    else if(num > 0)
-        return 1;
-
-    return 2;
 }
 
 hit_state_t aabb(collider_t* a, collider_t* b)

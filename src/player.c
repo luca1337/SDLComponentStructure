@@ -58,7 +58,7 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     add_component(&player->actor, CastToComponent(player->collider));
     player->collider->debug = 1;
 
-    SDL_Log("player center_x: [%.2f] player center_y [%.2f]", player->collider->get_center(player->collider).x, player->collider->get_center(player->collider).y);
+    // SDL_Log("player center_x: [%.2f] player center_y [%.2f]", player->collider->get_center(player->collider).x, player->collider->get_center(player->collider).y);
 
     //rigid bodyyy
     player->rb = COMPONENT_NEW(rigid_body, rigid_body_t);

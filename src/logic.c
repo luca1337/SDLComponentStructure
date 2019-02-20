@@ -47,9 +47,9 @@ static void _init(game_manager_t* gm)
     mgr = texture_mrg_new();
 
     // create entities below and add textures in memory
-    add_texture(mgr, "player", "mario2.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
-    add_texture(mgr, "tile_sheet", "sheet.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
-    add_texture(mgr, "runner", "runner.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
+    add_texture(mgr, "player", "assets/mario2.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
+    add_texture(mgr, "tile_sheet", "assets/sheet.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
+    add_texture(mgr, "runner", "assets/runner.png", SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, 4);
 
     // create and spawn the player
     vec2_t spawn_pos = vec2_init(ctx->width / 2 - 64, ctx->height / 2 - 64);
@@ -63,10 +63,6 @@ static void _init(game_manager_t* gm)
     vec2_t spawn_pos2 = vec2_init(ctx->width / 2 - 64, ctx->height / 2 - 256);
     ball2 = player_new(spawn_pos2, "player", "runner2", 1, 0);
     spawn_actor(engine, CastToActor(ball2), "mario1");
-
-    vec2_t spawn_pos3 = vec2_init(ctx->width / 2 - 64, ctx->height / 2 - 128);
-    ball3 = player_new(spawn_pos3, "player", "runner3", 1, 0);
-    spawn_actor(engine, CastToActor(ball3), "mario2");
 
     // paddle 01
     /*vec2_t paddle01_pos = vec2_init(10, ctx->height / 2 - 100);

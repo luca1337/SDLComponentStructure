@@ -35,7 +35,7 @@ static component_t* component_new(const char* name, size_t size)
     memset(comp, 0, size);
     comp->set_name = _set_name;
 
-    SDL_Log("component [%s] has [%d] bytes for memory space", name, size);
+    SDL_Log("component [%s] has [%llu] bytes reserved of memory space", name, size);
 
     comp->set_name(comp, name);
     comp->next = NULL;

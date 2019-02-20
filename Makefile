@@ -2,9 +2,9 @@ CC=clang
 CFLAGS= -O3 -Wno-pragma-pack -I SDL/include -I include -I include/components
 LDFLAGS= -lSDL2 -L SDL/lib/x64
 
-all: gametest
+all: ./bin/gametest
 
-gametest: main.o logic.o music.o gfx.o texture.o tex_list.o texture_mgr.o player.o enemy.o actor.o sprite_component.o engine.o sprite.o vec.o palette.o moveball_component.o bounce_component.o move_component.o animation_component.o quad_renderer_component.o collider.o rigid_body.o physics.o dynamic_array.o
+./bin/gametest: main.o logic.o music.o gfx.o texture.o tex_list.o texture_mgr.o player.o enemy.o actor.o sprite_component.o engine.o sprite.o vec.o palette.o moveball_component.o bounce_component.o move_component.o animation_component.o quad_renderer_component.o collider.o rigid_body.o physics.o dynamic_array.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 main.o: src/main.c

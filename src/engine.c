@@ -44,7 +44,7 @@ void check_collisions(engine_t* engine)
     for (int i = 0; i < engine->actor_count; i++)
     {
         actor_t* first = (actor_t*)engine->collision_pairs->data[i];
-        collider_t* a = get_component_by_name(first, "collider");
+        collider_t* a = (collider_t*)get_component_by_name(first, "collider");
 
         for(int j = 0; j < engine->actor_count; j++)
         {
@@ -53,7 +53,7 @@ void check_collisions(engine_t* engine)
             if(second == first)
                 continue;
 
-            collider_t* b = get_component_by_name(second, "collider");
+            collider_t* b = (collider_t*)get_component_by_name(second, "collider");
 
             hit_state_t hit = aabb(a, b);
 
