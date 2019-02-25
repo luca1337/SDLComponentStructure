@@ -2,10 +2,23 @@
 #include <utils.h>
 #include <stdlib.h>
 
-actor_t* actor_new(const char* name)
+static void _actor_set_scale(actor_t* actor, const vec2_t* scale)
 {
-    actor_t* actor = malloc(sizeof(actor_t));
-    CHECK_RET(actor, NULL, "cannot allocate space for actor");
+    actor->transform.scale = *scale;
+}
+
+static void _actor_set_position(actor_t* actor, const vec2_t* position)
+{
+    actor->transform.position = *position;
+}
+
+static void _actor_set_rotation(actor_t* actor, const float* rotation)
+{
+    actor->transform.rotation = *rotation;
+}
+
+void actor_new(actor_t* actor, const char* name)
+{
     memset(actor, 0, sizeof(actor_t));
 
     int len = strlen(name);
@@ -17,12 +30,15 @@ actor_t* actor_new(const char* name)
     actor->c_tail = NULL;
 
     actor->transform.position = vec2_init(0, 0);
-    actor->transform.rotation = 0.0f;
+    actor->transform.rotation = 0.0;
     actor->transform.scale = vec2_init(1, 1);
 
-    // SDL_Log("Initialized an actor [%p]", actor);
+    // hook functions
+    actor->actor_set_position = _actor_set_position;
+    actor->actor_set_rotation = _actor_set_rotation;
+    actor->actor_set_scale = _actor_set_scale;
 
-    return actor;
+    SDL_Log("Initialized an actor [%p]", actor);
 }
 
 void set_name(actor_t* actor, const char* name)

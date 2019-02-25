@@ -38,19 +38,15 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     memset(player, 0, sizeof(player_t));
 
     // initialize it's transform
-    player->actor.transform.position = vec2_init(spawn_pos.x, spawn_pos.y);
-    player->actor.transform.rotation = 0;
-    player->actor.transform.scale = vec2_init(2, 2);
+    actor_new(&player->actor, "player");
+    vec2_t scale = vec2_init(2, 2);
+    player->actor.actor_set_position(&player->actor, &spawn_pos);
+    player->actor.actor_set_scale(&player->actor, &scale);
 
     //setup renderer component
     player->renderer = COMPONENT_NEW(sprite_component, sprite_component_t);
     sprite_component_init(player->renderer, &player->actor, actor_name, 32, 32, can_mov);
     add_component(&player->actor, CastToComponent(player->renderer));
-
-    //quad component
-    /*player->quad = COMPONENT_NEW(quad_renderer, quad_renderer_t);
-    quad_renderer_init(player->quad, &player->actor, 45, 20);
-    add_component(&player->actor, CastToComponent(player->quad));*/
 
     //collider component
     player->collider = COMPONENT_NEW(collider, collider_t);
@@ -58,22 +54,10 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     add_component(&player->actor, CastToComponent(player->collider));
     player->collider->debug = 1;
 
-    // SDL_Log("player center_x: [%.2f] player center_y [%.2f]", player->collider->get_center(player->collider).x, player->collider->get_center(player->collider).y);
-
     //rigid bodyyy
     player->rb = COMPONENT_NEW(rigid_body, rigid_body_t);
     rigid_body_init(player->rb, &player->actor, gravity);
     add_component(&player->actor, CastToComponent(player->rb));
-
-    /*//setup move component
-    player->moveball = COMPONENT_NEW(moveball_component, moveball_component_t);
-    moveball_component_init(player->moveball, CastToActor(player));
-    add_component(&player->actor, CastToComponent(player->moveball));
-
-    //setup bounce component
-    player->bounce = COMPONENT_NEW(bounce_component, bounce_component_t);
-    bounce_component_init(player->bounce, CastToActor(player));
-    add_component(&player->actor, CastToComponent(player->bounce));*/
 
     // hook our function pointers
     player->move_player = move_player;

@@ -12,7 +12,7 @@ typedef struct engine{
 }engine_t;
 
 engine_t* engine_new();
-int spawn_actor(engine_t* engine, actor_t* actor, const char* name);
+int spawn_actor(engine_t* engine, actor_t* actor);
 int engine_tick(engine_t*);
 void engine_destroy(engine_t*);
 void check_collisions(engine_t* engine);

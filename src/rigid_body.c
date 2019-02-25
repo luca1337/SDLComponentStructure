@@ -3,7 +3,7 @@
 #include <gfx.h>
 
 extern ctx_t* ctx;
-static vec2_t gravity = { 0, 9.81f };
+static vec2_t gravity = { 0, 9.81 };
 
 static void _rigid_body_add_force(rigid_body_t* rigid_body, vec2_t force)
 {

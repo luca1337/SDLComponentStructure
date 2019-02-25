@@ -11,7 +11,7 @@ static void _tick(collider_t* collider)
 
     if(collider->debug == 1)
     {
-        SDL_SetRenderDrawColor(ctx->renderer, 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(ctx->renderer, 255, 0, 0, 255);
         SDL_RenderDrawRect(ctx->renderer, &collider->rect);
     }
 }

@@ -4,7 +4,7 @@ LDFLAGS= -lSDL2 -L SDL/lib/x64
 
 all: ./bin/gametest
 
-./bin/gametest: main.o logic.o music.o gfx.o texture.o tex_list.o texture_mgr.o player.o enemy.o actor.o sprite_component.o engine.o sprite.o vec.o palette.o moveball_component.o bounce_component.o move_component.o animation_component.o quad_renderer_component.o collider.o rigid_body.o physics.o dynamic_array.o
+./bin/gametest: main.o logic.o music.o gfx.o texture.o tex_list.o texture_mgr.o player.o enemy.o actor.o sprite_component.o engine.o sprite.o vec.o moveball_component.o bounce_component.o animation_component.o quad_renderer_component.o collider.o rigid_body.o physics.o dynamic_array.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 main.o: src/main.c
@@ -52,16 +52,10 @@ engine.o: src/engine.c
 vec.o: src/vec.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
-palette.o: src/palette.c
-	$(CC) $(CFLAGS) -c -o $@ $^
-
 moveball_component.o: src/components/moveball_component.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 bounce_component.o: src/components/bounce_component.c
-	$(CC) $(CFLAGS) -c -o $@ $^
-
-move_component.o: src/components/move_component.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 animation_component.o: src/components/animation_component.c

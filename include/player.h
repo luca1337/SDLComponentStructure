@@ -27,6 +27,6 @@ typedef struct player{
     void(*get_player_size)(struct player*, int*, int*);
 }player_t;
 
-player_t* player_new(vec2_t, const char*, const char*, char gravity, char can_mov);
+player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_path, char gravity, char can_mov);
 
 #endif

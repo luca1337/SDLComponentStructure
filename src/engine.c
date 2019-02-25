@@ -15,13 +15,12 @@ engine_t* engine_new()
     return engine;
 }
 
-int spawn_actor(engine_t* e, actor_t* actor, const char* name)
+int spawn_actor(engine_t* e, actor_t* actor)
 {
     if(e->head == NULL)
     {
         e->head = actor;
         e->tail = actor;
-        set_name(actor, name);
         e->actor_count++;
         dynamic_array_insert(e->collision_pairs, (void*)actor);
     }
@@ -30,34 +29,31 @@ int spawn_actor(engine_t* e, actor_t* actor, const char* name)
         e->tail->next = actor;
         actor->prev = e->tail;
         e->tail = actor;
-        set_name(actor, name);
         e->actor_count++;
         dynamic_array_insert(e->collision_pairs, (void*)actor);
     }
     return 0;
 }
 
-char checked = 0;
-
 void check_collisions(engine_t* engine)
 {
-    for (int i = 0; i < engine->actor_count; i++)
+    for (int i = 0; i < engine->actor_count - 1; i++)
     {
         actor_t* first = (actor_t*)engine->collision_pairs->data[i];
         collider_t* a = (collider_t*)get_component_by_name(first, "collider");
 
-        for(int j = 0; j < engine->actor_count; j++)
+        for(int j = i + 1; j < engine->actor_count; j++)
         {
             actor_t* second = (actor_t*)engine->collision_pairs->data[j];
-
-            if(second == first)
-                continue;
 
             collider_t* b = (collider_t*)get_component_by_name(second, "collider");
 
             hit_state_t hit = aabb(a, b);
 
-            resolve_collisions(a, b, hit.normal);
+            if(hit.hit == 1)
+            {
+                resolve_collisions(a, b, &hit.normal);
+            }
         }
     }
 }
