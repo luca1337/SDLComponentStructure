@@ -9,10 +9,10 @@
 
 int intersect(collider_t* a, collider_t* b)
 {
-    if(a->owner->transform.position.x + a->width > b->owner->transform.position.x
-    && a->owner->transform.position.x < b->owner->transform.position.x + b->width
-    && a->owner->transform.position.y + a->height > b->owner->transform.position.y
-    && a->owner->transform.position.y < b->owner->transform.position.y + b->height)
+    if(a->owner->transform.position.x + a->size.x > b->owner->transform.position.x
+    && a->owner->transform.position.x < b->owner->transform.position.x + b->size.x
+    && a->owner->transform.position.y + a->size.y > b->owner->transform.position.y
+    && a->owner->transform.position.y < b->owner->transform.position.y + b->size.y)
     {
         return 1;
     }
@@ -68,14 +68,14 @@ void change_position(collider_t* a, collider_t* b, vec2_t* normal)
     // if(!rb) { SDL_Log("rigid_body not while resolving collisions"); return; }
 
     //hit from dx
-    if (normal->x > 0. && position.x < b->owner->transform.position.x + b->size.x)
+    if (normal->x > 0.0)
     {
         rb->velocity.x = 0.0f;
         position.x = (b->owner->transform.position.x + b->size.x) + 0.7;
     }
 
     //hit from sx
-    if (normal->x < 0.0 && position.x + a->size.x > b->owner->transform.position.x)
+    if (normal->x < 0.0)
     {
         rb->velocity.x = 0.0;
 
@@ -86,7 +86,7 @@ void change_position(collider_t* a, collider_t* b, vec2_t* normal)
     }
 
     //hit from top
-    if (normal->y < 0.0 && position.y + a->size.y > b->owner->transform.position.y)
+    if (normal->y < 0.0)
     {
         rb->velocity.y = 0.0;
         float offset = b->size.y - a->size.y;
@@ -94,7 +94,7 @@ void change_position(collider_t* a, collider_t* b, vec2_t* normal)
     }
 
     //hit from bottom
-    if (normal->y > 0.0 && position.y < b->owner->transform.position.y + b->size.y)
+    if (normal->y > 0.0)
     {
         rb->velocity.y = 0.0;
         position.y = (b->owner->transform.position.y + b->size.y) + 0.7;

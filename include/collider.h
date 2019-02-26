@@ -11,9 +11,8 @@
 #include <vec.h>
 #include <transform.h>
 
-#define NUM_OF_RECT 4
-
-typedef struct collider{
+typedef struct collider
+{
     component_t component;
     actor_t* owner;
     SDL_Rect rect;
@@ -26,6 +25,7 @@ typedef struct collider{
     void(*debug_draw_collider)(struct collider* collider);
     vec2_t(*get_center)(struct collider* collider);
     vec2_t(*get_half_size)(struct collider* collider);
+    void(*on_collision_enter)(struct collider* collider, struct collider* other);
 }collider_t;
 
 void collider_init(collider_t* collider, actor_t* owner, int width, int height);

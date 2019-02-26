@@ -54,9 +54,9 @@ static void _init(game_manager_t* gm)
     ball = player_new(spawn_pos, "player", "runner", 0, 1);
     spawn_actor(engine, CastToActor(ball));
 
-    // vec2_t spawn_pos1 = vec2_init(ctx->width / 2, ctx->height / 2 - 32);
-    // ball1 = player_new(spawn_pos1, "player", "runner2", 0, 1);
-    // spawn_actor(engine, CastToActor(ball1), "mario1");
+    vec2_t spawn_pos1 = vec2_init(ctx->width / 2, ctx->height / 2 - 32);
+    ball1 = player_new(spawn_pos1, "player", "runner2", 0, 0);
+    spawn_actor(engine, CastToActor(ball1));
 
     // vec2_t enemy_pos = vec2_init( (ctx->width / 2) - 65, ctx->height / 2 + 125);
     // enemy = enemy_new(enemy_pos, "runner");

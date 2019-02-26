@@ -30,6 +30,11 @@ static void get_player_size(player_t* p, int* x, int* y)
     *y = p->actor.transform.scale.y;
 }
 
+static void _on_collision_enter(collider_t* collider, collider_t* other)
+{
+    
+}
+
 player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_path, char gravity, char can_mov)
 {
     // crate player 
@@ -53,6 +58,7 @@ player_t* player_new(vec2_t spawn_pos, const char* actor_name, const char* tex_p
     collider_init(player->collider, &player->actor, player->renderer->sprite->width, player->renderer->sprite->height);
     add_component(&player->actor, CastToComponent(player->collider));
     player->collider->debug = 1;
+    player->collider->on_collision_enter = _on_collision_enter;
 
     //rigid bodyyy
     player->rb = COMPONENT_NEW(rigid_body, rigid_body_t);

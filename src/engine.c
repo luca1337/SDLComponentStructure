@@ -3,6 +3,7 @@
 #include <utils.h>
 #include <stdlib.h>
 #include <physics.h>
+#include <SDL.h>
 
 engine_t* engine_new()
 {
@@ -39,20 +40,15 @@ void check_collisions(engine_t* engine)
 {
     for (int i = 0; i < engine->actor_count - 1; i++)
     {
-        actor_t* first = (actor_t*)engine->collision_pairs->data[i];
-        collider_t* a = (collider_t*)get_component_by_name(first, "collider");
+        collider_t* a = (collider_t*)get_component_by_name((actor_t*)engine->collision_pairs->data[i], "collider");
 
-        for(int j = i + 1; j < engine->actor_count; j++)
+        for (int j = i + 1; j < engine->actor_count; j++)
         {
-            actor_t* second = (actor_t*)engine->collision_pairs->data[j];
+            collider_t* b = (collider_t*)get_component_by_name((actor_t*)engine->collision_pairs->data[j], "collider");
 
-            collider_t* b = (collider_t*)get_component_by_name(second, "collider");
-
-            hit_state_t hit = aabb(a, b);
-
-            if(hit.hit == 1)
+            if(intersect(a, b))
             {
-                resolve_collisions(a, b, &hit.normal);
+                SDL_Log("%s collided with %s", a->owner->name, b->owner->name);
             }
         }
     }
@@ -75,11 +71,10 @@ int engine_tick(engine_t* e)
                 c->begin(c);
 
             if(!c->tick)
-            {
                 c = c->next;
-            }
 
             c->tick(c);
+            
             c = c->next;
         }
 
