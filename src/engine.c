@@ -46,10 +46,9 @@ void check_collisions(engine_t* engine)
         {
             collider_t* b = (collider_t*)get_component_by_name((actor_t*)engine->collision_pairs->data[j], "collider");
 
-            if(intersect(a, b))
-            {
-                SDL_Log("%s collided with %s", a->owner->name, b->owner->name);
-            }
+            hit_state_t hit = aabb(a, b);
+
+            resolve_collisions(a, b, &hit.normal);
         }
     }
 }

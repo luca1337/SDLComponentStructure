@@ -30,7 +30,7 @@ static void _tick(sprite_component_t* comp)
             comp->owner->transform.position.y += 150 * ctx->delta_seconds;
     }
 
-    comp->owner->transform.rotation += 150.0f * ctx->delta_seconds;
+    // comp->owner->transform.rotation += 150.0f * ctx->delta_seconds;
 
     comp->sprite->draw_texture(comp->sprite);
 }

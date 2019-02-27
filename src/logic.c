@@ -51,16 +51,21 @@ static void _init(game_manager_t* gm)
 
     // create and spawn the player
     vec2_t spawn_pos = vec2_init(ctx->width / 2, ctx->height / 2);
-    ball = player_new(spawn_pos, "player", "runner", 0, 1);
+    ball = player_new(spawn_pos, "player", "runner", 0, 0);
     spawn_actor(engine, CastToActor(ball));
 
-    vec2_t spawn_pos1 = vec2_init(ctx->width / 2, ctx->height / 2 - 32);
-    ball1 = player_new(spawn_pos1, "player", "runner2", 0, 0);
+    vec2_t spawn_pos1 = vec2_init(ctx->width / 2, ctx->height / 2 - 64);
+    ball1 = player_new(spawn_pos1, "player", "runner", 0, 0);
     spawn_actor(engine, CastToActor(ball1));
 
-    // vec2_t enemy_pos = vec2_init( (ctx->width / 2) - 65, ctx->height / 2 + 125);
-    // enemy = enemy_new(enemy_pos, "runner");
-    // spawn_actor(engine, CastToActor(enemy), "runner");
+    vec2_t spawn_pos2 = vec2_init(ctx->width / 2, ctx->height / 2 - 128);
+    ball2 = player_new(spawn_pos2, "player", "runner", 0, 0);
+    spawn_actor(engine, CastToActor(ball2));
+
+    vec2_t spawn_pos3 = vec2_init(ctx->width / 2, ctx->height / 2 - 195);
+    ball3 = player_new(spawn_pos3, "player", "runner", 0, 1);
+    spawn_actor(engine, CastToActor(ball3));
+
 }
 
 static void _tick(game_manager_t* gm)

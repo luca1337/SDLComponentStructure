@@ -71,33 +71,27 @@ void change_position(collider_t* a, collider_t* b, vec2_t* normal)
     if (normal->x > 0.0)
     {
         rb->velocity.x = 0.0f;
-        position.x = (b->owner->transform.position.x + b->size.x) + 0.7;
+        position.x = (b->owner->transform.position.x + b->size.x);
     }
 
     //hit from sx
     if (normal->x < 0.0)
     {
         rb->velocity.x = 0.0;
-
-        float offset = b->size.x - a->size.x;
-        float offset2 = a->size.x - b->size.x;
-        position.x = (b->owner->transform.position.x - b->size.x) + offset;
-        position2.x = (a->owner->transform.position.x - a->size.x) + offset2;
+        position.x = (b->owner->transform.position.x - b->size.x);
     }
 
     //hit from top
     if (normal->y < 0.0)
     {
-        rb->velocity.y = 0.0;
-        float offset = b->size.y - a->size.y;
-        position.y = (b->owner->transform.position.y - b->size.y) + offset;
+        position.y = (b->owner->transform.position.y - b->size.y);
     }
 
     //hit from bottom
     if (normal->y > 0.0)
     {
         rb->velocity.y = 0.0;
-        position.y = (b->owner->transform.position.y + b->size.y) + 0.7;
+        position.y = (b->owner->transform.position.y + b->size.y);
     }
 
     //change pos
